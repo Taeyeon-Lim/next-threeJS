@@ -1,0 +1,113 @@
+.potal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+
+  & > .potal-guide {
+    width: 100%;
+    max-width: 450px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+
+    position: fixed;
+    bottom: 0;
+    z-index: 128;
+
+    padding: 1.5rem;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    $rotateX: 45deg;
+    $duration: 0.2s;
+    $closeHeight: 60%;
+
+    @keyframes fadeInDown {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+      100% {
+        transform: translate3d(0, $closeHeight, 0);
+      }
+    }
+    @keyframes fadeInUp {
+      0% {
+        transform: translate3d(0, $closeHeight, 0);
+      }
+      100% {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    animation: fadeInUp $duration linear;
+    transform: translate3d(0, 0, 0);
+
+    &.close-guide {
+      animation: fadeInDown $duration linear;
+      transform: translate3d(0, $closeHeight, 0);
+
+      & > .guide-header > span {
+        & > .x-icon {
+          @keyframes rotatePlus {
+            0% {
+              transform: rotate(0);
+            }
+            100% {
+              transform: rotate($rotateX);
+            }
+          }
+
+          animation: rotatePlus $duration linear forwards;
+          transform: rotate($rotateX);
+        }
+      }
+    }
+
+    & > .guide-header {
+      width: 100%;
+      margin-bottom: 0.5rem;
+      font-size: 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+
+      & > h6 {
+        user-select: none;
+      }
+
+      & > span {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        & > .language-icon {
+          font-size: 2.25rem;
+        }
+        & > .x-icon {
+          font-size: 3rem;
+
+          @keyframes rotateX {
+            0% {
+              transform: rotate($rotateX);
+            }
+            100% {
+              transform: rotate(0);
+            }
+          }
+          animation: rotateX $duration linear forwards;
+          transform: rotate(0);
+        }
+      }
+    }
+
+    & > p {
+      font-size: 1.6rem;
+    }
+  }
+}
