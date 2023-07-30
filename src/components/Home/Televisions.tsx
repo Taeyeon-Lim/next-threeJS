@@ -1,7 +1,9 @@
+import React, { useMemo } from 'react';
+
 import { useGLTF } from '@react-three/drei';
 import { ThreeElements, useGraph } from '@react-three/fiber';
-import React, { useMemo } from 'react';
-import { ScreenBoxes, ScreenImage, ScreenText } from './Screen';
+
+import { ScreenBox, ScreenImage, ScreenText } from './Screen';
 
 export type TelevisionInstancesType = {
   [name: string]: THREE.Object3D<THREE.Event> & {
@@ -896,7 +898,7 @@ export default function Televisions(props: ThreeElements['group']) {
         routerPath={'/Potal'}
       />
 
-      <ScreenBoxes
+      <ScreenBox
         instances={instances}
         materials={materials}
         frame='Object_215'

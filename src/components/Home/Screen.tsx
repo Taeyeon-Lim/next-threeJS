@@ -1,8 +1,10 @@
 'use client';
 
-import { BufferGeometry, Material, Mesh, NormalBufferAttributes } from 'three';
+import * as THREE from 'three';
 import { PropsWithChildren, useRef, useState } from 'react';
-import { ThreeElements, useFrame, useThree } from '@react-three/fiber';
+
+import { ThreeElements, useFrame } from '@react-three/fiber';
+import { useRouter } from 'next/navigation';
 import {
   Image,
   PerspectiveCamera,
@@ -11,13 +13,11 @@ import {
   useCursor,
 } from '@react-three/drei';
 
-import * as THREE from 'three';
 import { TelevisionInstancesType } from './Televisions';
-import { useRouter } from 'next/navigation';
 
-type DreiImageProps = Mesh<
-  BufferGeometry<NormalBufferAttributes>,
-  (Material & { zoom: number }) | (Material[] & { zoom: number })
+type DreiImageProps = THREE.Mesh<
+  THREE.BufferGeometry<THREE.NormalBufferAttributes>,
+  (THREE.Material & { zoom: number }) | (THREE.Material[] & { zoom: number })
 > | null;
 
 type ScreenProps = {
@@ -25,7 +25,7 @@ type ScreenProps = {
   panel: string;
   instances: TelevisionInstancesType;
   materials: {
-    [name: string]: Material;
+    [name: string]: THREE.Material;
   };
 } & ThreeElements['group'];
 
@@ -152,7 +152,8 @@ export function ScreenImage({
   );
 }
 
-export function ScreenBoxes({
+// Box inner Screen
+export function ScreenBox({
   routerPath,
   ...props
 }: { routerPath: string } & ScreenProps) {
