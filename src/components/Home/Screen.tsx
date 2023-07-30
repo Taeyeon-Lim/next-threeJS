@@ -138,6 +138,7 @@ export function ScreenImage({
       <Image
         ref={imageRef}
         url={url}
+        // @ts-ignore
         alt={'Thumbnail_' + url.split('/')[1]}
         position={[-3.15, 0.75, 0]}
         scale={2.25}
