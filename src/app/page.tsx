@@ -1,3 +1,37 @@
+import 'server-only';
+
+import dynamic from 'next/dynamic';
+
+import Skelton from '@component/Skelton';
+const Television = dynamic(() => import('@component/Home'), {
+  ssr: false,
+  loading: () => (
+    <Skelton message='세계를 그리는 중..' backgroundColor='white' />
+  ),
+});
+
+import styles from './home.module.scss';
+import classnames from 'classnames/bind';
+const cx = classnames.bind(styles);
+
 export default function Home() {
-  return <main>배포 테스트</main>;
+  return (
+    <section className={cx('home')}>
+      <Television />
+    </section>
+  );
+
+  // <Image
+  //   style={{
+  //     objectFit: 'contain',
+  //     display: 'block',
+  //   }}
+  //   src={'/cat.jpeg'} // static image
+  //   alt={'cat'}
+  //   fill
+  //   sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+  //   quality={90}
+  //   placeholder='blur'
+  //   blurDataURL={PLACEHOLDER_BASE64_IMAGE}
+  // />;
 }

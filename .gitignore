@@ -32,4 +32,15 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+next-env.d.ts 
+
+# privacy file
+myTaskList.txt
+next.config.js
+yarn.lock 
+
+/src/components/ServerFetch.tsx
+/src/components/ClientDate.tsx 
+
+src/app/clientPage
+src/app/serverPage
