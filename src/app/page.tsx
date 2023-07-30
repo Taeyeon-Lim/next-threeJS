@@ -2,8 +2,8 @@ import 'server-only';
 
 import dynamic from 'next/dynamic';
 
-import Skelton from '@component/Skelton';
-const Television = dynamic(() => import('@component/Home'), {
+import Skelton from '@components/Skelton';
+const Television = dynamic(() => import('@components/Home'), {
   ssr: false,
   loading: () => (
     <Skelton message='세계를 그리는 중..' backgroundColor='white' />

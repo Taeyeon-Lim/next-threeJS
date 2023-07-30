@@ -35,9 +35,7 @@ yarn-error.log*
 next-env.d.ts 
 
 # privacy file
-myTaskList.txt
-next.config.js
-yarn.lock 
+myTaskList.txt  
 
 /src/components/ServerFetch.tsx
 /src/components/ClientDate.tsx 

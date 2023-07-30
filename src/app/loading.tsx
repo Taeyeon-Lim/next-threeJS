@@ -1,4 +1,4 @@
-import Skelton from '@component/Skelton';
+import Skelton from '@components/Skelton';
 
 // Root loading
 export default function Loading() {

@@ -1,4 +1,4 @@
-import Navigator from '@component/navigator';
+import Navigator from '@components/Navigator';
 
 import './globals.scss';
 import { Roboto } from 'next/font/google';
