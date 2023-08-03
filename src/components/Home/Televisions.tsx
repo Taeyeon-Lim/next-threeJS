@@ -888,6 +888,7 @@ export default function Televisions(props: ThreeElements['group']) {
         scale={0.009}
       />
 
+      {/* theme :: potal */}
       <ScreenImage
         instances={instances}
         materials={materials}
@@ -895,9 +896,24 @@ export default function Televisions(props: ThreeElements['group']) {
         panel='Object_207'
         position={[0.27, 1.529, -2.613]}
         url={'home/screen_potal.jpg'}
+        imagePosition={[-3.15, 0.75, 0]}
         routerPath={'/Potal'}
       />
 
+      {/* theme :: totoro */}
+      <ScreenImage
+        instances={instances}
+        materials={materials}
+        frame='Object_227'
+        panel='Object_228'
+        position={[0.955, 4.282, -4.203]}
+        rotation={[0.003, -0.647, 0.003]}
+        url={'home/screen_totoro.png'}
+        imagePosition={[0, 0.5, 0]}
+        routerPath={'/Totoro'}
+      />
+
+      {/* theme :: box */}
       <ScreenBox
         instances={instances}
         materials={materials}
@@ -961,15 +977,6 @@ export default function Televisions(props: ThreeElements['group']) {
         position={[-3.899, 4.287, -2.642]}
         rotation={[0, 0.539, 0]}
         invert
-      />
-      <ScreenText
-        instances={instances}
-        materials={materials}
-        frame='Object_227'
-        panel='Object_228'
-        position={[0.955, 4.282, -4.203]}
-        rotation={[0.003, -0.647, 0.003]}
-        text={'Not Yet Produced...'}
       />
       <ScreenText
         instances={instances}
