@@ -29,6 +29,11 @@ const nextConfig = {
         name: 'Potal',
         createdBy: '2023-07-29',
       },
+      {
+        path: '/Totoro',
+        name: 'Totoro',
+        createdBy: '2023-00-00',
+      },
     ],
   },
   images: {
