@@ -3,14 +3,14 @@
 import * as THREE from 'three';
 import { PropsWithChildren, useRef, useState } from 'react';
 
-import { ThreeElements, useFrame } from '@react-three/fiber';
+import { ThreeElements, Vector3, useFrame } from '@react-three/fiber';
 import { useRouter } from 'next/navigation';
 import {
-  Image,
-  PerspectiveCamera,
-  RenderTexture,
   Text,
+  Image,
   useCursor,
+  RenderTexture,
+  PerspectiveCamera,
 } from '@react-three/drei';
 
 import { TelevisionInstancesType } from './Televisions';
@@ -107,8 +107,9 @@ export function ScreenText({
 export function ScreenImage({
   url,
   routerPath,
+  imagePosition,
   ...props
-}: { url: string; routerPath: string } & ScreenProps) {
+}: { url: string; routerPath: string; imagePosition: Vector3 } & ScreenProps) {
   const imageRef = useRef<DreiImageProps>(null);
   const router = useRouter();
   const [hovered, setHovered] = useState(false);
@@ -140,7 +141,7 @@ export function ScreenImage({
         url={url}
         // @ts-ignore
         alt={'Thumbnail_' + url.split('/')[1]}
-        position={[-3.15, 0.75, 0]}
+        position={imagePosition}
         scale={2.25}
         onPointerOver={() => setHovered(true)}
         onPointerLeave={() => setHovered(false)}

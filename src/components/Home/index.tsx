@@ -62,6 +62,7 @@ const Rig = ({ isFocus }: { isFocus: boolean }) => {
         maxPolarAngle={degToRad(90)}
         minDistance={7.5}
         maxDistance={7.5}
+        enablePan={false}
       />
     </>
   );
