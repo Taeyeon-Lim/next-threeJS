@@ -13,7 +13,7 @@ const nextConfig = {
       {
         path: '/Box',
         name: 'Box',
-        createdBy: '2023-07-07', // First
+        createdBy: '2023-07-07',
       },
       // {
       //   path: '/Galaxy',
@@ -33,7 +33,7 @@ const nextConfig = {
       {
         path: '/Totoro',
         name: 'Totoro',
-        createdBy: '2023-00-00',
+        createdBy: '2023-08-03',
       },
     ],
   },

@@ -56,10 +56,7 @@ export default function RootLayout({
         <meta property='og:url' content={DOMAIN_URL} />
         <meta property='og:site_name' content={META_PROJECT_NAME} />
         <meta property='og:locale' content='ko_KR' />
-        <meta
-          property='og:image:url'
-          content={DOMAIN_URL + '/screen_home.png'}
-        />
+        <meta property='og:image' content={DOMAIN_URL + '/screen_home.png'} />
         <meta property='og:image:width' content='1223' />
         <meta property='og:image:height' content='689' />
         <meta property='og:image:alt' content={META_PROJECT_NAME} />
