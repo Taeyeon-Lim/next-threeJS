@@ -3,6 +3,7 @@ const path = require('path');
 
 const nextConfig = {
   env: {
+    domainURL: 'https://three-ty.vercel.app',
     navigatorLinks: [
       {
         path: '/',

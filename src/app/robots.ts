@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { DOMAIN_URL } from 'src/utils/env';
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -7,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       //   disallow: '/private/',
     },
-    // sitemap: 'https://acme.com/sitemap.xml',
+    sitemap: DOMAIN_URL + '/sitemap.xml',
   };
 }
 // type Robots = {
