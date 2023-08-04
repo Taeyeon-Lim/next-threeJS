@@ -50,6 +50,17 @@ export default function RootLayout({
   return (
     <html lang='ko' className={roboto.className}>
       <head>
+        {/* Naver, Search Advisor */}
+        <meta
+          name='naver-site-verification'
+          content='ec8fe907284954186779fe2e70a4103d48c1a309'
+        />
+        {/* Google, Search Console */}
+        <meta
+          name='google-site-verification'
+          content='VoUMUsPNDmZJsBoMk0j_AG6P1MoakfIYagtTGdgnkm4'
+        />
+
         {/* OPEN GRAPH */}
         <meta property='og:title' content={META_PROJECT_NAME} />
         <meta property='og:description' content={META_DESCRIPTION} />
