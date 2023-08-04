@@ -298,7 +298,7 @@ function Potal() {
 
       <Loader
         containerStyles={{ background: 'white' }}
-        dataStyles={{ color: 'black' }}
+        dataStyles={{ color: 'purple' }}
       />
     </>
   );

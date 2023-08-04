@@ -6,7 +6,11 @@ import Skelton from '@components/Skelton';
 const Potal = dynamic(() => import('@components/Potal'), {
   ssr: false,
   loading: () => (
-    <Skelton message='세계를 그리는 중..' backgroundColor='white' />
+    <Skelton
+      message='세계를 그리는 중..'
+      backgroundColor='white'
+      color='purple'
+    />
   ),
 });
 

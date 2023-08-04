@@ -60,8 +60,8 @@ export default function RootLayout({
           property='og:image:url'
           content={DOMAIN_URL + '/screen_home.png'}
         />
-        <meta property='og:image:width' content='1298' />
-        <meta property='og:image:height' content='731' />
+        <meta property='og:image:width' content='1223' />
+        <meta property='og:image:height' content='689' />
         <meta property='og:image:alt' content={META_PROJECT_NAME} />
         <meta property='og:type' content='website' />
 
