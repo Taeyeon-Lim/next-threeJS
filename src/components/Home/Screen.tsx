@@ -145,7 +145,8 @@ export function ScreenImage({
         scale={2.25}
         onPointerOver={() => setHovered(true)}
         onPointerLeave={() => setHovered(false)}
-        onClick={() => {
+        onClick={e => {
+          alert('click');
           if (routerPath) router.push(routerPath);
         }}
       />
