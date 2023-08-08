@@ -88,6 +88,8 @@ export default function RootLayout({
       </head>
 
       <body className={roboto.className}>
+        <h1>Three-ty 토이 프로젝트</h1>
+
         <Navigator />
 
         <main>{children}</main>

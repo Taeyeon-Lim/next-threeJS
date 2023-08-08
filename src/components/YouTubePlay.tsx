@@ -45,7 +45,6 @@ export default function YouTubePlay({
   const onClickPlayButton = () => {
     if (!player) return;
 
-    console.log('click :: ', play);
     if (play) {
       player.pauseVideo();
     } else {
