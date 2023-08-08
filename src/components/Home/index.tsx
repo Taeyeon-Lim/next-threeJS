@@ -4,46 +4,48 @@ import * as THREE from 'three';
 import { Suspense, useEffect, useRef, useState } from 'react';
 
 import {
-  Environment,
-  OrbitControls,
-  CameraShake,
-  MeshReflectorMaterial,
   Loader,
+  Environment,
+  CameraShake,
+  OrbitControls,
+  MeshReflectorMaterial,
 } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { degToRad } from 'three/src/math/MathUtils';
+import { useDebounce } from '@utils/hookUtils';
 
 import Televisions from './Televisions';
 
+import { IoMdReverseCamera } from 'react-icons/io';
+import { MdControlCamera } from 'react-icons/md';
+
 import { type OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 
-const Rig = ({ isFocus }: { isFocus: boolean }) => {
+import styles from '@app/home.module.scss';
+import classnames from 'classnames/bind';
+const cx = classnames.bind(styles);
+
+const Rig = ({ isOverCanvas }: { isOverCanvas: boolean }) => {
   const orbitControlRef = useRef<OrbitControlsImpl>(null!);
 
-  useFrame(state => {
-    if (!orbitControlRef.current) return;
-    const orbitControl = orbitControlRef.current;
+  useFrame(({ viewport, pointer }) => {
+    if (!orbitControlRef.current || !isOverCanvas) return;
 
-    const angleX = state.viewport.width >= 13 ? 45 : 90;
-    const { x, y } = state.mouse;
+    const { x, y } = pointer;
+    const angleX = viewport.width >= 13 ? 45 : 90;
     const newAngleX = -(x * degToRad(angleX));
     const newAngleY = (y + 1) * degToRad(90 - 40);
 
-    if (isFocus) {
-      orbitControl.setAzimuthalAngle(newAngleX);
-      orbitControl.setPolarAngle(newAngleY);
-    }
+    orbitControlRef.current.setAzimuthalAngle(newAngleX);
+    orbitControlRef.current.setPolarAngle(newAngleY);
   });
 
   useEffect(() => {
-    if (!orbitControlRef.current) return;
-    const orbitControl = orbitControlRef.current;
+    if (!orbitControlRef.current || isOverCanvas) return;
 
-    if (!isFocus) {
-      orbitControl.setAzimuthalAngle(0);
-      orbitControl.setPolarAngle(90);
-    }
-  }, [isFocus, orbitControlRef]);
+    orbitControlRef.current.setAzimuthalAngle(0);
+    orbitControlRef.current.setPolarAngle(90);
+  }, [isOverCanvas, orbitControlRef]);
 
   return (
     <>
@@ -55,6 +57,7 @@ const Rig = ({ isFocus }: { isFocus: boolean }) => {
         pitchFrequency={0.25}
         rollFrequency={0.2}
       />
+
       <OrbitControls
         makeDefault
         ref={orbitControlRef}
@@ -68,37 +71,31 @@ const Rig = ({ isFocus }: { isFocus: boolean }) => {
   );
 };
 
-const LightControl = ({ isFocus }: { isFocus: boolean }) => {
+const LightControl = ({ isOverCanvas }: { isOverCanvas: boolean }) => {
   const spotLightRef = useRef<THREE.SpotLight>(null!);
   const [vec] = useState(() => new THREE.Vector3());
 
   // * Display Light Range (auto update)
   // useHelper(spotLightRef, THREE.SpotLightHelper, 'cyan');
 
-  useFrame(({ mouse, viewport }) => {
-    if (!spotLightRef?.current) return;
+  useFrame(({ viewport, pointer }) => {
+    if (!spotLightRef?.current || !isOverCanvas) return;
 
-    const spotLight = spotLightRef.current;
-    const { x, y } = mouse;
+    const { x, y } = pointer;
 
-    if (isFocus) {
-      spotLight.target.position.lerp(
-        vec.set((x * viewport.width) / 2, (y * viewport.height) / 2, 0),
-        0.1
-      );
-      spotLight.target.updateMatrixWorld();
-    }
+    spotLightRef.current.target.position.lerp(
+      vec.set((x * viewport.width) / 2, (y * viewport.height) / 2, 0),
+      0.1
+    );
+    spotLightRef.current.target.updateMatrixWorld();
   });
 
   useEffect(() => {
-    if (!isFocus) {
-      if (!spotLightRef?.current) return;
-      const spotLight = spotLightRef.current;
+    if (!spotLightRef?.current || isOverCanvas) return;
 
-      spotLight.target.position.lerp(vec.set(0, 0, 0), 1);
-      spotLight.target.updateMatrixWorld();
-    }
-  }, [isFocus, vec]);
+    spotLightRef.current.target.position.lerp(vec.set(0, 0, 0), 1);
+    spotLightRef.current.target.updateMatrixWorld();
+  }, [isOverCanvas, vec]);
 
   return (
     <spotLight
@@ -107,34 +104,44 @@ const LightControl = ({ isFocus }: { isFocus: boolean }) => {
       angle={0.4}
       penumbra={1}
       intensity={1}
-      shadow-mapSize={256}
-      castShadow
+      // shadow-mapSize={256} // performance issue
     />
   );
 };
 
 function Television() {
-  const [isFocus, setIsFocus] = useState(false);
+  const [autoFallback, setAutoFallback] = useState(true);
+  const [isOverPointer, setIsOverPointer] = useState(false);
+
+  const debouncedOverPointer = useDebounce(
+    isOverPointer,
+    isOverPointer ? 0 : 6500
+  );
 
   return (
     <>
+      <button
+        className={cx('autoBack-button')}
+        onClick={() => {
+          setIsOverPointer(autoFallback);
+          setAutoFallback(prev => !prev);
+        }}
+      >
+        {autoFallback ? <IoMdReverseCamera /> : <MdControlCamera />}
+      </button>
+
       <Canvas
         shadows
         dpr={[1, 2]}
-        onPointerOver={() => {
-          setIsFocus(true);
-        }}
-        onPointerOut={() => {
-          setIsFocus(false);
-        }}
-        eventPrefix='client'
+        onPointerOver={() => setIsOverPointer(true)}
+        onPointerOut={() => autoFallback && setIsOverPointer(false)}
       >
         {/* 전역 라이트 */}
         <ambientLight position={[10, 10, 10]} intensity={0.1} color={'#fff'} />
         {/* 위, 아래 라이트 */}
         <hemisphereLight intensity={0.15} groundColor='black' />
         {/* 원뿔 모양 라이트 */}
-        <LightControl isFocus={isFocus} />
+        <LightControl isOverCanvas={debouncedOverPointer} />
 
         <spotLight
           position={[15, 20, 0]}
@@ -142,7 +149,6 @@ function Television() {
           penumbra={1}
           intensity={1}
           color={'Lightcoral'}
-          shadow-mapSize={512}
           castShadow
         />
         {/* 포인트 라이트 */}
@@ -160,7 +166,7 @@ function Television() {
         />
 
         {/* Camera control */}
-        <Rig isFocus={isFocus} />
+        <Rig isOverCanvas={debouncedOverPointer} />
 
         {/* Mesh */}
         <Suspense fallback={null}>
@@ -176,15 +182,15 @@ function Television() {
             <planeGeometry args={[35, 35]} />
             <MeshReflectorMaterial
               blur={[300, 30]}
-              resolution={2048}
+              resolution={1024}
               mixBlur={1}
               mixStrength={80}
               roughness={1}
-              depthScale={1.2}
+              depthScale={1.4}
               minDepthThreshold={0.4}
-              maxDepthThreshold={1.4}
+              maxDepthThreshold={1.2}
               color='#202020'
-              metalness={0.8}
+              metalness={0.75}
               mirror={0}
             />
           </mesh>
