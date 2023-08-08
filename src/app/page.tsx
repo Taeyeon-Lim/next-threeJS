@@ -6,7 +6,7 @@ import Skelton from '@components/Skelton';
 const Television = dynamic(() => import('@components/Home'), {
   ssr: false,
   loading: () => (
-    <Skelton message='세계를 그리는 중..' backgroundColor='white' />
+    <Skelton message='세계를 그리는 중..' backgroundColor='black' />
   ),
 });
 

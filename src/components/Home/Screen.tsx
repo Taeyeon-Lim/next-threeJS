@@ -146,7 +146,7 @@ export function ScreenImage({
         onPointerOver={() => setHovered(true)}
         onPointerLeave={() => setHovered(false)}
         onClick={e => {
-          alert('click');
+          e.stopPropagation();
           if (routerPath) router.push(routerPath);
         }}
       />
@@ -188,7 +188,8 @@ export function ScreenBox({
         ref={meshRef}
         position={[-0.025, 0.34, 0]}
         scale={0.35}
-        onClick={() => {
+        onClick={e => {
+          e.stopPropagation();
           if (routerPath) router.push(routerPath);
         }}
         onPointerOver={() => setHovered(true)}
