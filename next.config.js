@@ -3,6 +3,10 @@ const path = require('path');
 
 const nextConfig = {
   env: {
+    naverClient: {
+      clientID: '9irpe0J7J5c3E3Rix3m8',
+      secret: 'Z85h1LkXdk',
+    },
     domainURL: 'https://three-ty.vercel.app',
     navigatorLinks: [
       {
@@ -34,6 +38,18 @@ const nextConfig = {
         path: '/Totoro',
         name: 'Totoro',
         createdBy: '2023-08-03',
+      },
+      {
+        path: '/Naver',
+        name: 'Letter',
+        createdBy: '20XX-XX-XX',
+        subPaths: [
+          {
+            path: '/SearchTrend',
+            name: 'SearchTrend',
+            createdBy: '2023-10-27',
+          },
+        ],
       },
     ],
   },
