@@ -285,7 +285,7 @@ export default function Page() {
           return;
         }
 
-        if (!keywordTag) {
+        if (searchTag && !keywordTag) {
           setTag(prev => ({
             ...prev,
             keywordError: '추가 키워드를 입력하세요',
@@ -345,7 +345,7 @@ export default function Page() {
         </button>
 
         <button type='submit' key={'select_close'}>
-          적용
+          {isCursor && tag.searchTag === '' ? '삭제' : '적용'}
         </button>
       </div>
     </a.form>
