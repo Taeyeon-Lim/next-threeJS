@@ -31,7 +31,7 @@ function Selects({
           const { optionName, queryTag, queryValues } = option;
           const pageQuery = searchParams[queryTag];
 
-          if (optionName === '시작일' || optionName === '종료일') return null;
+          if (optionName === '시작일' || optionName === '종료일') return;
 
           const nextLink =
             nextSearchParams('/Naver/SearchTrend/Select') + queryTag;
