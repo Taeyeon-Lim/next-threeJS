@@ -1,0 +1,88 @@
+$sheetHeight: 100;
+$sheetHeightPx: $sheetHeight * 1px;
+$itemHeight: 60;
+$itemHeightPx: $itemHeight * 1px;
+
+:export {
+  sheetHeight: $sheetHeight;
+  itemHeight: $itemHeight;
+}
+
+.sheet {
+  width: 100vw;
+  max-width: 100%;
+  @media (min-width: 450px) {
+    width: 75vw;
+    left: 12.5vw;
+  }
+  height: calc(100vh + $sheetHeightPx);
+
+  background-color: lightgray;
+
+  border: 1px solid lightgray;
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+
+  touch-action: none;
+  user-select: none;
+  overflow: hidden auto;
+
+  position: fixed;
+  z-index: 64;
+
+  & > .items {
+    width: 100%;
+
+    &.double {
+      display: flex;
+      flex-wrap: wrap;
+
+      & > .item {
+        width: 50%;
+
+        &:nth-child(2n) {
+          border-left: 1px solid #dadada;
+        }
+      }
+    }
+
+    & > .item {
+      width: 100%;
+      height: $itemHeightPx;
+
+      background: #fff;
+      font-size: 1.6rem;
+
+      padding: 0 2rem;
+      border-bottom: 1px solid #dadada;
+      box-sizing: border-box;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-transform: capitalize;
+      cursor: pointer;
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          font-weight: bold;
+          background-color: #eee;
+        }
+      }
+
+      &.close {
+        color: black;
+        background-color: lightgray;
+
+        @media (hover: hover) and (pointer: fine) {
+          &:hover {
+            color: white;
+            font-weight: normal;
+            background-color: gray;
+          }
+        }
+      }
+    }
+  }
+}
