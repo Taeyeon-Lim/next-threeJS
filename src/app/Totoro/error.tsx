@@ -1,4 +1,6 @@
-'use client'; // Error components must be Client Components
+'use client';
+
+import ErrorModal from '@components/Modal/ErrorModal';
 
 export default function Error({
   error,
@@ -7,14 +9,14 @@ export default function Error({
   error: Error;
   reset: () => void;
 }) {
-  // useEffect(() => {
-  //   console.error(error);
-  // }, [error]);
-
   return (
-    <>
-      <h2>scrollY ERROR..!</h2>
-      <button onClick={() => reset()}>Try again</button>
-    </>
+    <ErrorModal
+      pageError={error}
+      title='Totoro Page Error'
+      errorButton={{
+        reset,
+        name: '새로고침',
+      }}
+    />
   );
 }

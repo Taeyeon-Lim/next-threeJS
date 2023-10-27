@@ -2,11 +2,11 @@ import 'server-only';
 
 import dynamic from 'next/dynamic';
 
-import Skelton from '@components/Skelton';
+import Skeleton from '@components/Skeleton';
 const Totoro = dynamic(() => import('@components/Totoro'), {
   ssr: false,
   loading: () => (
-    <Skelton message='세계를 그리는 중..' backgroundColor='#d9afd9' />
+    <Skeleton message='세계를 그리는 중..' backgroundColor='#d9afd9' />
   ),
 });
 const YouTubePlay = dynamic(() => import('@components/YouTubePlay'), {
