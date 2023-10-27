@@ -1,5 +1,5 @@
-import Skelton from '@components/Skelton';
+import Skeleton from '@components/Skeleton';
 
 export default function Loading() {
-  return <Skelton message='Box 페이지 로딩 중..' />;
+  return <Skeleton message='Box 페이지 로딩 중..' />;
 }

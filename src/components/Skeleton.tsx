@@ -1,7 +1,7 @@
 'use client';
 
 /** 범용 스켈레톤 컴포넌트 */
-function Skelton({
+function Skeleton({
   message,
   backgroundColor,
   color,
@@ -20,7 +20,7 @@ function Skelton({
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: '2rem',
-        color: color || 'white',
+        color: color || (backgroundColor ? 'white' : 'black'),
       }}
     >
       {message}
@@ -28,4 +28,4 @@ function Skelton({
   );
 }
 
-export default Skelton;
+export default Skeleton;

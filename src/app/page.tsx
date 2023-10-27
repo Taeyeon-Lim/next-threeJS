@@ -2,11 +2,11 @@ import 'server-only';
 
 import dynamic from 'next/dynamic';
 
-import Skelton from '@components/Skelton';
+import Skeleton from '@components/Skeleton';
 const Television = dynamic(() => import('@components/Home'), {
   ssr: false,
   loading: () => (
-    <Skelton message='세계를 그리는 중..' backgroundColor='black' />
+    <Skeleton message='세계를 그리는 중..' backgroundColor='black' />
   ),
 });
 
