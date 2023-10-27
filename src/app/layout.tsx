@@ -3,20 +3,13 @@ import './globals.scss';
 
 import { Metadata } from 'next';
 
-import { Roboto } from 'next/font/google';
-
 import Navigator from '@components/Navigator';
+
+import global_fontFamily from '@utils/fonts';
 
 import { DOMAIN_URL } from 'src/utils/env';
 export const PLACEHOLDER_BASE64_IMAGE =
   'data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBAB  bWyZJf74GZgAAAABJRU5ErkJggg==';
-
-const roboto = Roboto({
-  weight: ['300', '500', '700'],
-  // style: ['normal', 'italic'],
-  subsets: ['latin'],
-  display: 'swap',
-});
 
 const META_DESCRIPTION = 'Three.js 토이 프로젝트';
 const META_PROJECT_NAME = 'Three-ty';
@@ -48,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='ko' className={roboto.className}>
+    <html lang='ko' className={global_fontFamily}>
       <head>
         {/* Naver, Search Advisor */}
         <meta
@@ -87,7 +80,7 @@ export default function RootLayout({
         <meta name='twitter:app:name:googleplay' content={META_PROJECT_NAME} />
       </head>
 
-      <body className={roboto.className}>
+      <body>
         <h1>Three-ty 토이 프로젝트</h1>
 
         <Navigator />
