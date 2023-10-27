@@ -1,0 +1,36 @@
+$headerHeight: 5rem;
+
+.naver {
+  position: relative;
+
+  // 제목
+  & > h2 {
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    position: absolute;
+    clip-path: polygon(0 0, 0 0, 0 0);
+  }
+
+  & > .naver-header {
+    height: 0;
+    font-size: 2.5rem;
+    color: #00c68e;
+
+    padding-right: 1rem;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: flex-end;
+
+    position: sticky;
+    top: 0;
+    z-index: 2;
+
+    opacity: 0.5;
+    backdrop-filter: blur(30px);
+  }
+}
