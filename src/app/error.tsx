@@ -1,4 +1,6 @@
-'use client'; // Error components must be Client Components
+'use client';
+
+import ErrorModal from '@components/Modal/ErrorModal';
 
 export default function Error({
   error,
@@ -7,22 +9,14 @@ export default function Error({
   error: Error;
   reset: () => void;
 }) {
-  //   useEffect(() => {
-  //     // Log the error to an error reporting service
-  //     console.error(error);
-  //   }, [error]);
-
   return (
-    <div>
-      <h2>HOME 에러</h2>
-      <button
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
-      >
-        Try again
-      </button>
-    </div>
+    <ErrorModal
+      pageError={error}
+      title='Home Page Error'
+      errorButton={{
+        reset,
+        name: '새로고침',
+      }}
+    />
   );
 }

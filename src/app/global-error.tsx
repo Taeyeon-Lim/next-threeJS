@@ -2,6 +2,8 @@
 
 'use client';
 
+import ErrorModal from '@components/Modal/ErrorModal';
+
 export default function GlobalError({
   error,
   reset,
@@ -12,8 +14,14 @@ export default function GlobalError({
   return (
     <html lang='ko'>
       <body>
-        <h2>Global Error (application 전체 에러)</h2>
-        <button onClick={() => reset()}>Try again</button>
+        <ErrorModal
+          pageError={error}
+          title='Application ERROR'
+          errorButton={{
+            reset,
+            name: '새로고침',
+          }}
+        />
       </body>
     </html>
   );
