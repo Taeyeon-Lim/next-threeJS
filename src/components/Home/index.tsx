@@ -122,7 +122,7 @@ function Television() {
 
   const debouncedOverPointer = useDebounce(
     isOverPointer,
-    isOverPointer ? 0 : 6500
+    isOverPointer ? 0 : 5500
   );
 
   return (
