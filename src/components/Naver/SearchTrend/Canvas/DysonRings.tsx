@@ -28,8 +28,13 @@ export default function DysonRings({
   ...props
 }: PropsWithChildren<GroupProps>) {
   const group = useRef<Group>(null);
+  const deviceWidth = useThree(state => state.size.width);
 
-  const { scene, animations } = useGLTF('/naver/searchTrend/dyson_rings.glb');
+  // issue: performance slow
+  // const { scene, animations } = useGLTF('/naver/searchTrend/dyson_rings.glb');
+  const { scene, animations } = useGLTF(
+    '/naver/searchTrend/dyson_rings_small.glb'
+  );
   const { nodes, materials } = useGraph(scene);
   const instances: SearchTrendModelInstancesType = useMemo(
     () => ({
@@ -44,7 +49,6 @@ export default function DysonRings({
   );
 
   const { actions } = useAnimations(animations, group);
-  const deviceWidth = useThree(state => state.size.width);
 
   useFrame(({ clock }) => {
     const currentGroup = group.current;

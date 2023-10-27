@@ -29,8 +29,13 @@ export default function AlphaTower({
   position: THREE.Vector3;
 } & GroupProps) {
   const group = useRef<THREE.Group>(null);
+  const [lookAtPos] = useState(() => new THREE.Vector3(0, 1200, 0));
 
-  const { scene, animations } = useGLTF('/naver/searchTrend/alpha_tower.glb');
+  // issue: performance slow
+  // const { scene, animations } = useGLTF('/naver/searchTrend/alpha_tower.glb');
+  const { scene, animations } = useGLTF(
+    '/naver/searchTrend/alpha_tower_small.glb'
+  );
   const { nodes, materials } = useGraph(scene);
   const instances: SearchTrendModelInstancesType = useMemo(
     () => ({
@@ -41,7 +46,6 @@ export default function AlphaTower({
   );
 
   const { actions } = useAnimations(animations, group);
-  const [lookAtPos] = useState(() => new THREE.Vector3(0, 1200, 0));
 
   useTimeout(
     () => {
@@ -83,7 +87,7 @@ export default function AlphaTower({
   }, [actions, isDestroy]);
 
   const [hovered, setHovered] = useState(false);
-  useCursor(hovered);
+  useCursor(hovered && !isDestroy);
 
   const { updateSearchParam } = useUpdateSearchParams(null, 'push');
 
@@ -97,12 +101,13 @@ export default function AlphaTower({
 
         startTransition(() => setHovered(true));
       }}
-      onPointerOut={e => {
+      onPointerOut={() => {
         startTransition(() => setHovered(false));
       }}
       onClick={e => {
         e.stopPropagation();
 
+        if (isDestroy) return;
         if (towerKeyword) updateSearchParam('view', towerKeyword);
       }}
       dispose={null}
@@ -123,14 +128,15 @@ export default function AlphaTower({
                   geometry={instances.Object_5.geometry}
                   material={materials.MAT_Metal_2}
                 >
-                  <Outlines
+                  {/* <Outlines
                     thickness={0.01}
-                    opacity={hovered ? 1 : 0}
+                    opacity={hovered && !isDestroy ? 1 : 0}
                     angle={0}
-                    color='#a4d3d8'
+                    color={'#a4d3d8'}
                     screenspace={false}
                     transparent
-                  />
+                    renderOrder={2}
+                  /> */}
                 </mesh>
               </group>
             </group>
@@ -144,7 +150,7 @@ export default function AlphaTower({
           towerKeyword={towerKeyword || 'Loading...'}
           position={[0, 0, 3]}
           rotation={[Math.PI / 2, Math.PI / 2, 0]}
-          visible={hovered}
+          visible={hovered && !isDestroy}
         />
       </Suspense>
     </group>

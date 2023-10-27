@@ -30,8 +30,13 @@ export default function BetaTower({
   position: THREE.Vector3;
 } & GroupProps) {
   const group = useRef<THREE.Group>(null);
+  const [lookAtPos] = useState(() => new THREE.Vector3(0, 1200, 0));
 
-  const { scene, animations } = useGLTF('/naver/searchTrend/beta_tower.glb');
+  // issue: performance slow
+  // const { scene, animations } = useGLTF('/naver/searchTrend/beta_tower.glb');
+  const { scene, animations } = useGLTF(
+    '/naver/searchTrend/beta_tower_small.glb'
+  );
   const { nodes, materials } = useGraph(scene);
   const instances: SearchTrendModelInstancesType = useMemo(
     () => ({
@@ -43,7 +48,6 @@ export default function BetaTower({
   );
 
   const { actions } = useAnimations(animations, group);
-  const [lookAtPos] = useState(() => new THREE.Vector3(0, 1200, 0));
 
   useTimeout(
     () => {
@@ -85,7 +89,7 @@ export default function BetaTower({
   }, [actions, isDestroy]);
 
   const [hovered, setHovered] = useState(false);
-  useCursor(hovered);
+  useCursor(hovered && !isDestroy);
 
   const { updateSearchParam } = useUpdateSearchParams(null, 'push');
 
@@ -105,6 +109,7 @@ export default function BetaTower({
       onClick={e => {
         e.stopPropagation();
 
+        if (isDestroy) return;
         if (towerKeyword) updateSearchParam('view', towerKeyword);
       }}
       dispose={null}
@@ -125,14 +130,14 @@ export default function BetaTower({
                   geometry={instances.Object_5.geometry}
                   material={materials.MAT_Metal}
                 >
-                  <Outlines
+                  {/* <Outlines
                     thickness={0.01}
-                    opacity={hovered ? 1 : 0}
+                    opacity={hovered && !isDestroy ? 1 : 0}
                     angle={0}
                     color='#ff9f7c'
                     screenspace={false}
                     transparent
-                  />
+                  /> */}
                 </mesh>
 
                 <mesh
@@ -152,7 +157,7 @@ export default function BetaTower({
           towerKeyword={towerKeyword || 'Loading...'}
           position={[0, 0, 4.5]}
           rotation={[Math.PI / 2, Math.PI / 2, 0]}
-          visible={hovered}
+          visible={hovered && !isDestroy}
         />
       </Suspense>
     </group>
