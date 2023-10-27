@@ -1,0 +1,50 @@
+.searchTrend-modal_error {
+  min-height: 250px;
+  padding: 2rem;
+  box-sizing: border-box;
+  background-color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+
+  & > h2 {
+    font-size: 1.6rem;
+  }
+
+  & > .imoji {
+    font-size: 7.5rem;
+    color: darkgray;
+  }
+
+  & > .button-group {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+
+    & > button {
+      width: 100%;
+      background-color: darkgray;
+
+      font-size: 1.75rem;
+      color: white;
+      font-weight: 700;
+
+      padding: 1.25rem 0;
+      box-sizing: border-box;
+
+      border: none;
+      border-radius: 5px;
+
+      cursor: pointer;
+
+      &.cancel {
+        background-color: #fff;
+        color: gray;
+        border: 1px solid gray;
+      }
+    }
+  }
+}
