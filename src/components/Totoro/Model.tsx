@@ -11,7 +11,7 @@ import { ThreeElements, useFrame, useGraph } from '@react-three/fiber';
 import { gsap } from 'gsap';
 
 export type WawaOfficeInstancesType = {
-  [name: string]: THREE.Object3D<THREE.Event> & {
+  [name: string]: THREE.Object3D<THREE.Object3DEventMap> & {
     geometry?: THREE.BufferGeometry;
     skeleton?: THREE.Skeleton;
   };

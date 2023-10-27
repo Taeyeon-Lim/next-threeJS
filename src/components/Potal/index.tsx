@@ -33,7 +33,7 @@ import Guide from './Guide';
 import Yeti from './Yeti';
 
 export type PotalInstancesType = {
-  [name: string]: THREE.Object3D<THREE.Event> & {
+  [name: string]: THREE.Object3D<THREE.Object3DEventMap> & {
     geometry?: THREE.BufferGeometry;
     skeleton?: THREE.Skeleton;
   };
@@ -61,6 +61,7 @@ export const CONVERT_POTAL_ACTIONS: {
 const Rig = ({ activeWorldName }: { activeWorldName: string }) => {
   const controlsRef = useRef<CameraControls>(null);
   const scene = useThree(state => state.scene);
+  const [newPosition] = useState(() => new THREE.Vector3());
 
   useEffect(() => {
     const controls = controlsRef.current;
@@ -71,12 +72,19 @@ const Rig = ({ activeWorldName }: { activeWorldName: string }) => {
     if (activeWorldName === '') {
       controls.setLookAt(0, 0, 5, 0, 0, 0, true);
     } else {
-      const target = new THREE.Vector3();
-      scene.getObjectByName(activeWorldName)?.getWorldPosition(target);
+      scene.getObjectByName(activeWorldName)?.getWorldPosition(newPosition);
 
-      controls.setLookAt(0, 0, 5, target.x, target.y, target.z, true);
+      controls.setLookAt(
+        0,
+        0,
+        5,
+        newPosition.x,
+        newPosition.y,
+        newPosition.z,
+        true
+      );
     }
-  }, [scene, activeWorldName]);
+  }, [scene, activeWorldName, newPosition]);
 
   return (
     <CameraControls
@@ -209,7 +217,14 @@ function Potal() {
   );
 
   return (
-    <>
+    <Suspense
+      fallback={
+        <Loader
+          containerStyles={{ background: 'whiteSmoke' }}
+          dataStyles={{ color: 'purple' }}
+        />
+      }
+    >
       <Guide hovered={hovered} activeWorldName={activeWorldName} />
 
       <Canvas
@@ -295,12 +310,7 @@ function Potal() {
           </Suspense>
         </Stage>
       </Canvas>
-
-      <Loader
-        containerStyles={{ background: 'white' }}
-        dataStyles={{ color: 'purple' }}
-      />
-    </>
+    </Suspense>
   );
 }
 

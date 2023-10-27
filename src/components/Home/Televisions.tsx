@@ -6,7 +6,7 @@ import { ThreeElements, useGraph } from '@react-three/fiber';
 import { ScreenBox, ScreenImage, ScreenText } from './Screen';
 
 export type TelevisionInstancesType = {
-  [name: string]: THREE.Object3D<THREE.Event> & {
+  [name: string]: THREE.Object3D<THREE.Object3DEventMap> & {
     geometry?: THREE.BufferGeometry;
   };
 };
