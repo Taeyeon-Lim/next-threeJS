@@ -3,16 +3,23 @@
 import * as THREE from 'three';
 import { Suspense, useEffect, useRef, useState } from 'react';
 
+import { Canvas, useFrame } from '@react-three/fiber';
 import {
   Loader,
   Environment,
   CameraShake,
   OrbitControls,
   MeshReflectorMaterial,
+  BakeShadows,
 } from '@react-three/drei';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { degToRad } from 'three/src/math/MathUtils';
+import {
+  EffectComposer,
+  BrightnessContrast,
+  DepthOfField,
+  Bloom,
+} from '@react-three/postprocessing';
 import { useDebounce } from '@utils/hookUtils';
+import { degToRad } from 'three/src/math/MathUtils';
 
 import Televisions from './Televisions';
 
@@ -203,6 +210,27 @@ function Television() {
             <meshBasicMaterial color={'black'} side={THREE.BackSide} />
           </mesh>
         </Environment>
+
+        <EffectComposer disableNormalPass>
+          <Bloom
+            luminanceThreshold={0}
+            luminanceSmoothing={0}
+            intensity={2}
+            mipmapBlur
+          />
+          <BrightnessContrast
+            brightness={-0.02} // brightness. min: -1, max: 1
+            contrast={0.02} // contrast: min -1, max: 1
+          />
+          <DepthOfField
+            target={[0, 0, 30]}
+            focalLength={0.3}
+            bokehScale={25}
+            height={500}
+          />
+        </EffectComposer>
+
+        <BakeShadows />
       </Canvas>
 
       <Loader

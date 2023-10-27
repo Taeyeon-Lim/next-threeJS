@@ -43,13 +43,7 @@ function Screen({
 
       <mesh geometry={instances[panel].geometry}>
         <meshBasicMaterial toneMapped={false}>
-          <RenderTexture
-            width={512}
-            height={512}
-            attach='map'
-            anisotropy={16}
-            sourceFile={null} // legacy type
-          >
+          <RenderTexture width={512} height={512} attach='map' anisotropy={16}>
             {children}
           </RenderTexture>
         </meshBasicMaterial>
