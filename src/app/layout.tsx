@@ -3,6 +3,8 @@ import './globals.scss';
 
 import { Metadata } from 'next';
 
+import { Analytics } from '@vercel/analytics/react';
+
 import Navigator from '@components/Navigator';
 
 import global_fontFamily from '@utils/fonts';
@@ -86,6 +88,8 @@ export default function RootLayout({
         <Navigator />
 
         <main>{children}</main>
+
+        <Analytics />
       </body>
     </html>
   );
