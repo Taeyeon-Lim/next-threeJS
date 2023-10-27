@@ -137,6 +137,20 @@ const Rig = ({
 
   return (
     <>
+      {animation === 'up' ? (
+        <CameraControls ref={controlsRef} />
+      ) : (
+        <OrbitControls
+          makeDefault
+          ref={orbitCameraRef}
+          minPolarAngle={degToRad(50)}
+          maxPolarAngle={degToRad(65)}
+          minAzimuthAngle={0}
+          maxAzimuthAngle={0}
+          enabled={false}
+        />
+      )}
+
       <Suspense fallback={null}>
         <AlphaTowerAnimation
           ref={alphaTowerRef}
@@ -154,20 +168,6 @@ const Rig = ({
           visible={animation === 'up' && towerType === 'even'}
         />
       </Suspense>
-
-      {animation === 'up' ? (
-        <CameraControls ref={controlsRef} />
-      ) : (
-        <OrbitControls
-          makeDefault
-          ref={orbitCameraRef}
-          minPolarAngle={degToRad(50)}
-          maxPolarAngle={degToRad(65)}
-          minAzimuthAngle={0}
-          maxAzimuthAngle={0}
-          enabled={false}
-        />
-      )}
     </>
   );
 };
@@ -245,11 +245,11 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
               if (index % 2) {
                 return (
                   <Suspense
-                    key={'BetaTowerDummy_' + index}
-                    fallback={<BetaTowerDummy position={position} />}
+                    key={'BetaTower_' + index}
+                    //  fallback={<BetaTowerDummy position={position} />}
+                    fallback={null}
                   >
                     <BetaTower
-                      key={'BetaTower_' + index}
                       towerKeyword={searchWord}
                       isDestroy={
                         (animation === 'reset' && index !== 0) ||
@@ -263,11 +263,11 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
               } else {
                 return (
                   <Suspense
-                    key={'AlphaTowerDummy_' + index}
-                    fallback={<AlphaTowerDummy position={position} />}
+                    key={'AlphaTower_' + index}
+                    // fallback={<AlphaTowerDummy position={position} />}
+                    fallback={null}
                   >
                     <AlphaTower
-                      key={'AlphaTower_' + index}
                       towerKeyword={searchWord}
                       isDestroy={
                         (animation === 'reset' && index !== 0) ||
@@ -284,22 +284,25 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
         </Suspense>
 
         <Environment preset='sunset' resolution={256} />
-        <Stars
-          radius={150}
-          depth={50}
-          count={1000}
-          factor={2}
-          saturation={0}
-          speed={1.5}
-          fade
-        />
-        <Sparkles
-          count={5000}
-          speed={0.15}
-          opacity={0.25}
-          size={50}
-          scale={350}
-        />
+
+        <Suspense fallback={null}>
+          <Stars
+            radius={150}
+            depth={50}
+            count={1000}
+            factor={2}
+            saturation={0}
+            speed={1.5}
+            fade
+          />
+          <Sparkles
+            count={5000}
+            speed={0.15}
+            opacity={0.25}
+            size={50}
+            scale={350}
+          />
+        </Suspense>
 
         {process.env.NODE_ENV === 'development' && (
           <Stats showPanel={0} className='stats' />
