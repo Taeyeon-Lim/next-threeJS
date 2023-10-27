@@ -82,8 +82,10 @@ body {
   border: 0;
   outline: 0;
   font-size: 62.5%;
+  font-family: var(--font-Roboto), var(--font-NotoSansKR), sans-serif;
   background: transparent;
   appearance: none;
+  overflow: hidden;
 
   & > h1 {
     width: 1px;
@@ -103,7 +105,7 @@ body {
     & > section {
       width: 100%;
       height: 100%;
-      overflow: auto;
+      overflow: hidden auto;
     }
   }
 }
@@ -116,4 +118,77 @@ a {
 ol,
 ul {
   list-style: none;
+}
+
+input[type='date'] {
+  -o-appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  background: url('/BsCalendar.png') white no-repeat right 1rem center/14px auto;
+  -webkit-text-fill-color: darkslategray;
+
+  width: 125px;
+  position: relative;
+
+  border-radius: 5px;
+  padding: 0.65rem 0 0.5rem 0.75rem;
+  box-sizing: border-box;
+  border: 1px solid darkslategray;
+  outline: none;
+
+  &::-webkit-clear-button,
+  &::-webkit-inner-spin-button {
+    display: none;
+  }
+  &::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    color: transparent;
+    cursor: pointer;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      backdrop-filter: brightness(90%);
+      background-color: darken($color: #ffffff, $amount: 15%);
+    }
+  }
+  &:disabled {
+    -webkit-text-fill-color: gray;
+    border-color: lightgray;
+    cursor: not-allowed;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        backdrop-filter: none;
+      }
+    }
+  }
+}
+
+// SimpleSpinner.tsx
+.simple-loader {
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  border: 20px solid #e1e4e7;
+  border-radius: 50%;
+  border-top: 20px solid #ee8a71;
+  box-sizing: border-box;
+  animation: spinner 4s linear infinite;
+
+  @keyframes spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 }
