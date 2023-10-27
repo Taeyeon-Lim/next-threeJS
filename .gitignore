@@ -37,8 +37,19 @@ next-env.d.ts
 # privacy file
 myTaskList.txt  
 
+# test file
 /src/components/ServerFetch.tsx
-/src/components/ClientDate.tsx 
-
+/src/components/ClientDate.tsx  
 src/app/clientPage
 src/app/serverPage
+/src/components/ErrorTest.tsx  
+/public/cat.jpeg
+
+# 미구현 페이지
+/src/app/Galaxy
+/src/components/Galaxy.tsx
+/public/galaxy
+
+/src/app/Camera
+/src/components/Camera.tsx
+/public/camera
