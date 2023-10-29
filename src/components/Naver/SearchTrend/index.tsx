@@ -2,37 +2,39 @@
 // asset URL : https://sketchfab.com/Portal.Studio
 
 import * as THREE from 'three';
-import {
-  useState,
-  useRef,
-  Suspense,
-  useLayoutEffect,
-  useCallback,
-} from 'react';
+import { useState, useRef, Suspense, useEffect, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
 
 import { Canvas, useFrame } from '@react-three/fiber';
 import {
+  Stars,
   Stats,
+  Loader,
+  Sparkles,
   Environment,
   OrbitControls,
   CameraControls,
-  Loader,
-  Stars,
-  Sparkles,
 } from '@react-three/drei';
 
+import {
+  Outline,
+  Selection,
+  EffectComposer,
+} from '@react-three/postprocessing';
 import { degToRad } from 'three/src/math/MathUtils';
 import { useTimeout } from '@utils/hookUtils';
 
 import DysonRingsDummy from './Canvas/DysonRingsDummy';
-import AlphaTowerDummy, { AlphaTowerAnimation } from './Canvas/AlphaTowerDummy';
-import BetaTowerDummy, { BetaTowerAnimation } from './Canvas/BetaTowerDummy';
+import AlphaTowerAnimation from './Canvas/AlphaTowerDummy';
+import BetaTowerAnimation from './Canvas/BetaTowerDummy';
 import DysonRings from './Canvas/DysonRings';
 import AlphaTower from './Canvas/AlphaTower';
 import BetaTower from './Canvas/BetaTower';
 
 import { SearchTrendData } from '@api/external/Naver';
+
 import { type OrbitControls as OrbitControlsImpl } from 'three-stdlib';
+import { type OutlineEffect } from 'postprocessing';
 
 export type SearchTrendModelInstancesType = {
   [name: string]: THREE.Object3D<THREE.Object3DEventMap> & {
@@ -173,6 +175,19 @@ const Rig = ({
 };
 
 function SearchTrend({ data }: { data: SearchTrendData }) {
+  const pathname = usePathname();
+
+  // Handle outline color
+  const outlineRef = useRef<OutlineEffect | null>(null!);
+  const hoveredOutlineColor = useCallback(
+    (hover: boolean, color: THREE.Color) => {
+      if (outlineRef.current && hover)
+        outlineRef.current.visibleEdgeColor = color;
+    },
+    []
+  );
+
+  // Handle tower object & animation
   const [towerCount, setTowerCount] = useState(data.results.length);
   const [animation, setAnimation] = useState<AnimationState>(null);
 
@@ -181,12 +196,17 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
     setTowerCount(data.results.length);
   }, [data.results.length]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const diff = data.results.length - towerCount;
     if (diff === 0) return;
 
     setAnimation(diff === -4 ? 'reset' : diff > 0 ? 'up' : 'down');
   }, [data, towerCount]);
+
+  const isBlockChart =
+    pathname.includes('/Keyword') ||
+    pathname.includes('/Select') ||
+    !!animation;
 
   return (
     <Suspense
@@ -206,10 +226,10 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
         />
 
         {/* Light */}
-        <ambientLight intensity={0.5} />
+        <ambientLight intensity={1.5} color={'Lightcoral'} />
         <hemisphereLight
-          position={[0, 0, 0]}
-          intensity={0.5}
+          position={[5, 5, -5]}
+          intensity={1}
           groundColor='blue'
         />
         <spotLight
@@ -218,69 +238,94 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
           penumbra={1}
           intensity={1}
           color={'Lightcoral'}
-          castShadow
         />
 
         {/* Model */}
         <Suspense fallback={<DysonRingsDummy />}>
-          <DysonRings>
-            {Array.from(
-              {
-                length: towerCount,
-              },
-              (_, i) => i
-            ).map((key, index) => {
-              const positionX =
-                Math.sin((2 * Math.PI * key) / towerCount) * RADIUS;
-              const positionZ =
-                Math.cos((2 * Math.PI * key) / towerCount) * RADIUS;
-              const position = new THREE.Vector3(
-                parseFloat(positionX.toFixed(6)),
-                0.5,
-                parseFloat(positionZ.toFixed(6))
-              );
-              const searchWord = data.results.map(result => result.title)[
-                index
-              ];
-              if (index % 2) {
-                return (
-                  <Suspense
-                    key={'BetaTower_' + index}
-                    //  fallback={<BetaTowerDummy position={position} />}
-                    fallback={null}
-                  >
-                    <BetaTower
-                      towerKeyword={searchWord}
-                      isDestroy={
-                        (animation === 'reset' && index !== 0) ||
-                        (index === towerCount - 1 && animation === 'down')
-                      }
-                      afterDownAnimation={afterTowerCountAnimation}
-                      position={position}
-                    />
-                  </Suspense>
+          {/* Outline effect */}
+          <Selection>
+            <EffectComposer
+              multisampling={8}
+              autoClear={false}
+              renderPriority={1}
+            >
+              <Outline
+                ref={outlineRef}
+                visibleEdgeColor={0xffffff}
+                edgeStrength={50}
+                width={1000}
+                height={1000}
+                blur
+              />
+            </EffectComposer>
+
+            <DysonRings
+              isBlockChart={isBlockChart}
+              hoveredOutlineColor={hoveredOutlineColor}
+            >
+              {Array.from(
+                {
+                  length: towerCount,
+                },
+                (_, i) => i
+              ).map((key, index) => {
+                const positionX =
+                  Math.sin((2 * Math.PI * key) / towerCount) * RADIUS;
+                const positionZ =
+                  Math.cos((2 * Math.PI * key) / towerCount) * RADIUS;
+                const position = new THREE.Vector3(
+                  parseFloat(positionX.toFixed(5)),
+                  0.5,
+                  parseFloat(positionZ.toFixed(5))
                 );
-              } else {
-                return (
-                  <Suspense
-                    key={'AlphaTower_' + index}
-                    // fallback={<AlphaTowerDummy position={position} />}
-                    fallback={null}
-                  >
-                    <AlphaTower
-                      towerKeyword={searchWord}
-                      isDestroy={
-                        (animation === 'reset' && index !== 0) ||
-                        (index === towerCount - 1 && animation === 'down')
-                      }
-                      afterDownAnimation={afterTowerCountAnimation}
-                      position={position}
-                    />
-                  </Suspense>
-                );
-              }
-            })}
-          </DysonRings>
+                const searchWord = data.results.map(result => result.title)[
+                  index
+                ];
+
+                if (index % 2) {
+                  return (
+                    <Suspense
+                      key={'BetaTower_' + index}
+                      //  fallback={<BetaTowerDummy position={position} />}
+                      fallback={null}
+                    >
+                      <BetaTower
+                        towerKeyword={searchWord}
+                        isDestroy={
+                          (animation === 'reset' && index !== 0) ||
+                          (index === towerCount - 1 && animation === 'down')
+                        }
+                        afterDownAnimation={afterTowerCountAnimation}
+                        isBlockChart={isBlockChart}
+                        hoveredOutlineColor={hoveredOutlineColor}
+                        position={position}
+                      />
+                    </Suspense>
+                  );
+                } else {
+                  return (
+                    <Suspense
+                      key={'AlphaTower_' + index}
+                      // fallback={<AlphaTowerDummy position={position} />}
+                      fallback={null}
+                    >
+                      <AlphaTower
+                        towerKeyword={searchWord}
+                        isDestroy={
+                          (animation === 'reset' && index !== 0) ||
+                          (index === towerCount - 1 && animation === 'down')
+                        }
+                        afterDownAnimation={afterTowerCountAnimation}
+                        isBlockChart={isBlockChart}
+                        hoveredOutlineColor={hoveredOutlineColor}
+                        position={position}
+                      />
+                    </Suspense>
+                  );
+                }
+              })}
+            </DysonRings>
+          </Selection>
         </Suspense>
 
         <Environment preset='sunset' resolution={256} />
@@ -289,17 +334,17 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
           <Stars
             radius={150}
             depth={50}
-            count={1000}
+            count={750}
             factor={2}
-            saturation={0}
+            saturation={0.5}
             speed={1.5}
             fade
           />
           <Sparkles
-            count={5000}
+            count={500}
             speed={0.15}
-            opacity={0.25}
-            size={50}
+            opacity={0.5}
+            size={25}
             scale={350}
           />
         </Suspense>

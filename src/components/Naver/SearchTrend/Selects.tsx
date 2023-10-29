@@ -1,26 +1,32 @@
-import 'server-only';
+'use client';
 
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
 import { newSearchParams } from '@utils/navigationUtils';
 
 import SelectsDate from './SelectsDate';
 
-import { SEARCH_TREND_SELECT_OPTIONS } from './variables';
-
 import styles from './selects.module.scss';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
 
+import { SEARCH_TREND_SELECT_OPTIONS } from './variables';
+
 function Selects({
   searchParams,
+  isReplace = false,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
+  isReplace?: boolean;
 }) {
   const queryString = newSearchParams(searchParams, ['cursor']).toString();
 
   const nextSearchParams = (href: string) =>
     queryString ? `${href}?${queryString}&cursor=` : `${href}?cursor=`;
+
+  const pathname = usePathname();
+  const inactiveLink = pathname.includes('/Select');
 
   return (
     <div className={cx('selects-wrap')}>
@@ -37,7 +43,11 @@ function Selects({
             nextSearchParams('/Naver/SearchTrend/Select') + queryTag;
 
           return (
-            <Link key={optionName} href={nextLink}>
+            <Link
+              key={optionName}
+              href={inactiveLink ? '' : nextLink}
+              replace={isReplace}
+            >
               {optionName === '기간' && typeof pageQuery !== 'object' ? (
                 <>
                   {

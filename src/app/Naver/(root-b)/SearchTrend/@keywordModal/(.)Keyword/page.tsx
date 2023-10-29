@@ -65,17 +65,6 @@ export default function Page() {
       : initialTag
   );
 
-  // 이미 모달이 열린 상태에서 다른 키워드 클릭 시, 변경
-  useEffect(() => {
-    if (isCursor) {
-      setTag(prev => ({
-        ...prev,
-        searchTag: isCursor,
-        keywordTag: searchParams.get(isCursor) || '',
-      }));
-    }
-  }, [isCursor, searchParams]);
-
   const onChangeTag: ChangeEventHandler<HTMLInputElement> = e => {
     const { name, value } = e.currentTarget;
     const trimValue = value.trim();

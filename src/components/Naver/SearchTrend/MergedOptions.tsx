@@ -1,5 +1,3 @@
-import 'server-only';
-
 import Keywords from './Keywords';
 import Selects from './Selects';
 
@@ -24,7 +22,7 @@ function MergedOptions({
             ☝ 추가된 그룹 <span>(클릭 시, 변경)</span>
           </p>
 
-          <Keywords searchParams={searchParams} />
+          <Keywords searchParams={searchParams} isReplace />
         </div>
 
         <hr />
@@ -32,7 +30,7 @@ function MergedOptions({
         <div>
           <p>✌ 옵션</p>
 
-          <Selects searchParams={searchParams} />
+          <Selects searchParams={searchParams} isReplace />
         </div>
       </div>
     </div>
