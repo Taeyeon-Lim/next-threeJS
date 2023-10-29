@@ -55,7 +55,7 @@ export const SELECT_INITIAL_DATE = () => {
   today.setHours(today.getHours() + 9);
   today.setDate(today.getDate() - 1);
   const endDate = today.toISOString().slice(0, 10);
-  today.setFullYear(today.getFullYear() - 1);
+  today.setMonth(today.getMonth() - 6);
   const startDate = today.toISOString().slice(0, 10);
 
   return [startDate, endDate];
