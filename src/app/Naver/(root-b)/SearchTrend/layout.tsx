@@ -1,5 +1,3 @@
-import 'server-only';
-
 import ModalControl from '@components/Naver/SearchTrend/ModalControl';
 
 function Layout({
