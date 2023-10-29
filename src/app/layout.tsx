@@ -89,7 +89,7 @@ export default function RootLayout({
 
         <main>{children}</main>
 
-        <Analytics />
+        <Analytics mode='production' />
       </body>
     </html>
   );
