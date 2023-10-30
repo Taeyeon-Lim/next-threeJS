@@ -51,7 +51,7 @@
         font-weight: 300;
 
         @media (hover: hover) and (pointer: fine) {
-          &:hover {
+          &:not(.current):hover {
             color: $hoverColor;
           }
         }
@@ -59,6 +59,12 @@
         &.sub {
           display: inline-flex;
           gap: 0.5rem;
+        }
+
+        &.current {
+          font-weight: 500;
+          text-decoration: underline;
+          cursor: default;
         }
       }
 
