@@ -146,7 +146,9 @@ export default function AlphaTower({
         <Suspense fallback={null}>
           <TowerName
             towerType='alpha'
-            towerKeyword={towerKeyword || 'Loading...'}
+            towerKeyword={
+              isBlockChart ? '조정 중..' : towerKeyword || 'Loading...'
+            }
             position={[0, 0, 3]}
             rotation={[Math.PI / 2, Math.PI / 2, 0]}
             visible={hovered && !isDestroy}

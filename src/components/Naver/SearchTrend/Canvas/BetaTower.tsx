@@ -153,7 +153,9 @@ export default function BetaTower({
         <Suspense fallback={null}>
           <TowerName
             towerType='beta'
-            towerKeyword={towerKeyword || 'Loading...'}
+            towerKeyword={
+              isBlockChart ? '조정 중..' : towerKeyword || 'Loading...'
+            }
             position={[0, 0, 4.5]}
             rotation={[Math.PI / 2, Math.PI / 2, 0]}
             visible={hovered && !isDestroy}
