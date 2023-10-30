@@ -2,7 +2,14 @@
 // asset URL : https://sketchfab.com/Portal.Studio
 
 import * as THREE from 'three';
-import { useState, useRef, Suspense, useEffect, useCallback } from 'react';
+import {
+  useState,
+  useRef,
+  Suspense,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
+} from 'react';
 import { usePathname } from 'next/navigation';
 
 import { Canvas, useFrame } from '@react-three/fiber';
@@ -55,9 +62,12 @@ const Rig = ({
   afterUpAnimation: () => void;
 }) => {
   const orbitCameraRef = useRef<OrbitControlsImpl>(null);
+  const controlsRef = useRef<CameraControls>(null);
+  const alphaTowerRef = useRef<THREE.Group>(null);
+  const betaTowerRef = useRef<THREE.Group>(null);
 
   const [cam_pos] = useState(() => new THREE.Vector3(0, -10, 0));
-  const [add_tower_pos] = useState(() => new THREE.Vector3(-103, 177, 0));
+  const [add_tower_pos] = useState(() => new THREE.Vector3(-100, 185, 0));
 
   const defaultCameraPosition = useCallback(
     (width: number) => {
@@ -81,6 +91,12 @@ const Rig = ({
     [cam_pos]
   );
 
+  useLayoutEffect(() => {
+    if (!animation || !towerType) return;
+
+    add_tower_pos.set(-100, 185, 0);
+  }, [animation, add_tower_pos, towerType]);
+
   useTimeout(
     () => {
       afterUpAnimation();
@@ -88,10 +104,6 @@ const Rig = ({
     5000,
     animation === 'up'
   );
-
-  const controlsRef = useRef<CameraControls>(null);
-  const alphaTowerRef = useRef<THREE.Group>(null);
-  const betaTowerRef = useRef<THREE.Group>(null);
 
   useFrame(({ size }) => {
     if (animation === 'up' || !towerType) {
@@ -123,16 +135,15 @@ const Rig = ({
       }
 
       controlsRef.current.setLookAt(
-        -100,
+        -90,
         165,
-        3,
+        5,
         add_tower_pos.x,
         add_tower_pos.y - 2,
         add_tower_pos.z,
-        true
+        false
       );
     } else {
-      add_tower_pos.set(-103, 177, 0);
       defaultCameraPosition(size.width);
     }
   });
