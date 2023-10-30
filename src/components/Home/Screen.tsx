@@ -190,7 +190,7 @@ export function ScreenBox({
         onPointerOut={() => setHovered(false)}
       >
         <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color={hovered ? 'hotpink' : 'Gold'} />
+        <meshStandardMaterial color={hovered ? 'Gold' : '#9127b9'} />
       </mesh>
     </Screen>
   );
