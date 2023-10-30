@@ -1,7 +1,7 @@
 'use client';
 
 import * as THREE from 'three';
-import { Suspense, useEffect, useRef, useState } from 'react';
+import { Suspense, startTransition, useEffect, useRef, useState } from 'react';
 
 import { Canvas, useFrame } from '@react-three/fiber';
 import {
@@ -140,7 +140,13 @@ function Television() {
       <Canvas
         shadows
         dpr={[1, 2]}
-        onPointerOver={() => setIsOverPointer(true)}
+        onPointerOver={e => {
+          e.stopPropagation();
+
+          startTransition(() => {
+            setIsOverPointer(true);
+          });
+        }}
         onPointerOut={() => autoFallback && setIsOverPointer(false)}
       >
         {/* 전역 라이트 */}

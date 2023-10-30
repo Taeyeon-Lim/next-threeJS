@@ -1,7 +1,7 @@
 'use client';
 
 import * as THREE from 'three';
-import { PropsWithChildren, useRef, useState } from 'react';
+import { PropsWithChildren, startTransition, useRef, useState } from 'react';
 
 import { ThreeElements, Vector3, useFrame } from '@react-three/fiber';
 import { useRouter } from 'next/navigation';
@@ -137,10 +137,17 @@ export function ScreenImage({
         alt={'Thumbnail_' + url.split('/')[1]}
         position={imagePosition}
         scale={2.25}
-        onPointerOver={() => setHovered(true)}
+        onPointerOver={e => {
+          e.stopPropagation();
+
+          startTransition(() => {
+            setHovered(true);
+          });
+        }}
         onPointerLeave={() => setHovered(false)}
         onClick={e => {
           e.stopPropagation();
+
           if (routerPath) router.push(routerPath);
         }}
       />
@@ -184,9 +191,16 @@ export function ScreenBox({
         scale={0.35}
         onClick={e => {
           e.stopPropagation();
+
           if (routerPath) router.push(routerPath);
         }}
-        onPointerOver={() => setHovered(true)}
+        onPointerOver={e => {
+          e.stopPropagation();
+
+          startTransition(() => {
+            setHovered(true);
+          });
+        }}
         onPointerOut={() => setHovered(false)}
       >
         <boxGeometry args={[1, 1, 1]} />
