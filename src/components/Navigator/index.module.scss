@@ -92,12 +92,8 @@
 .navi-wait {
   position: fixed;
   top: 0.5rem;
-  left: 1.5rem;
+  left: 0.5rem;
   z-index: 128;
-
-  @media (min-width: 450px) {
-    left: 0.5rem;
-  }
 
   & > svg {
     width: 4rem;
