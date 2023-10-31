@@ -27,7 +27,7 @@ function Keywords({
   };
 
   const pathname = usePathname();
-  const inactiveLink = pathname.includes('/Keyword');
+  const inactiveLink = pathname.includes('/Keyword') && !isReplace;
 
   const overkeywordFive = keywordOptions.length >= 5;
 
@@ -45,13 +45,14 @@ function Keywords({
                 <Link
                   key={key}
                   href={
-                    inactiveLink
-                      ? ''
-                      : nextSearchParams('/Naver/SearchTrend/Keyword') +
-                        '&cursor=' +
-                        key.toString()
+                    nextSearchParams('/Naver/SearchTrend/Keyword') +
+                    '&cursor=' +
+                    key.toString()
                   }
                   replace={isReplace}
+                  onClick={e => {
+                    if (inactiveLink) e.preventDefault();
+                  }}
                 >
                   {key}
                 </Link>
@@ -61,14 +62,13 @@ function Keywords({
         ) : (
           <Link
             href={
-              inactiveLink
-                ? ''
-                : nextSearchParams('/Naver/SearchTrend/Keyword') +
-                  (queryString
-                    ? '&cursor=네이버'
-                    : '?cursor=네이버&네이버=네이버')
+              nextSearchParams('/Naver/SearchTrend/Keyword') +
+              (queryString ? '&cursor=네이버' : '?cursor=네이버&네이버=네이버')
             }
             replace={isReplace}
+            onClick={e => {
+              if (inactiveLink) e.preventDefault();
+            }}
           >
             네이버
           </Link>
@@ -86,11 +86,12 @@ function Keywords({
         </Link>
       ) : (
         <Link
-          href={
-            inactiveLink ? '' : nextSearchParams('/Naver/SearchTrend/Keyword')
-          }
+          href={nextSearchParams('/Naver/SearchTrend/Keyword')}
           className={cx('add-keyword_button')}
           replace={isReplace}
+          onClick={e => {
+            if (inactiveLink) e.preventDefault();
+          }}
         >
           <BsPlusCircle />
           <span>그룹</span>

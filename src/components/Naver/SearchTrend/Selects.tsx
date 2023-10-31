@@ -26,7 +26,7 @@ function Selects({
     queryString ? `${href}?${queryString}&cursor=` : `${href}?cursor=`;
 
   const pathname = usePathname();
-  const inactiveLink = pathname.includes('/Select');
+  const inactiveLink = pathname.includes('/Select') && !isReplace;
 
   return (
     <div className={cx('selects-wrap')}>
@@ -45,8 +45,11 @@ function Selects({
           return (
             <Link
               key={optionName}
-              href={inactiveLink ? '' : nextLink}
+              href={nextLink}
               replace={isReplace}
+              onClick={e => {
+                if (inactiveLink) e.preventDefault();
+              }}
             >
               {optionName === '기간' && typeof pageQuery !== 'object' ? (
                 <>
