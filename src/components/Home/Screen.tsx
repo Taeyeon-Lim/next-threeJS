@@ -11,6 +11,8 @@ import {
   useCursor,
   RenderTexture,
   PerspectiveCamera,
+  Stars,
+  Sparkles,
 } from '@react-three/drei';
 
 import { TelevisionInstancesType } from './Televisions';
@@ -206,6 +208,71 @@ export function ScreenBox({
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color={hovered ? 'Gold' : '#9127b9'} />
       </mesh>
+    </Screen>
+  );
+}
+
+// CustomModel inner Screen
+export function ScreenCustomModel({
+  routerPath,
+  children,
+  ...props
+}: PropsWithChildren<
+  {
+    routerPath: string;
+  } & ScreenProps
+>) {
+  const router = useRouter();
+  const [hovered, setHovered] = useState(false);
+
+  useCursor(hovered);
+
+  return (
+    <Screen
+      {...props}
+      onClick={e => {
+        e.stopPropagation();
+
+        if (routerPath) router.push(routerPath);
+      }}
+      onPointerOver={e => {
+        e.stopPropagation();
+
+        startTransition(() => {
+          setHovered(true);
+        });
+      }}
+      onPointerOut={() => setHovered(false)}
+    >
+      <PerspectiveCamera
+        makeDefault
+        manual
+        aspect={1}
+        position={[0.5, -27.5, 80]}
+      />
+      <color attach='background' args={['#846f9f']} />
+      <ambientLight intensity={0.2} />
+      <pointLight position={[10, 10, 10]} intensity={0.75} />
+      <pointLight position={[-10, -10, -10]} />
+
+      {children}
+
+      <Stars
+        radius={1}
+        depth={5}
+        count={20}
+        factor={2}
+        saturation={0.2}
+        speed={1}
+        fade
+      />
+      <Sparkles
+        count={25}
+        speed={5}
+        opacity={hovered ? 0.5 : 0}
+        size={65}
+        scale={20}
+      />
     </Screen>
   );
 }
