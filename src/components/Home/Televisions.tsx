@@ -3,7 +3,13 @@ import React, { useMemo } from 'react';
 import { useGLTF } from '@react-three/drei';
 import { ThreeElements, useGraph } from '@react-three/fiber';
 
-import { ScreenBox, ScreenImage, ScreenText } from './Screen';
+import {
+  ScreenBox,
+  ScreenCustomModel,
+  ScreenImage,
+  ScreenText,
+} from './Screen';
+import DysonRingsDummy from '@components/Naver/SearchTrend/Canvas/DysonRingsDummy';
 
 export type TelevisionInstancesType = {
   [name: string]: THREE.Object3D<THREE.Object3DEventMap> & {
@@ -935,16 +941,23 @@ export default function Televisions(props: ThreeElements['group']) {
         scale={0.9}
         text={'Prod by TaeYeon'}
       />
-      <ScreenText
+
+      {/* theme :: SearchTrend */}
+      <ScreenCustomModel
         instances={instances}
         materials={materials}
         frame='Object_209'
         panel='Object_210'
         position={[-1.43, 2.496, -1.8]}
         rotation={[0, 1.002, 0]}
-        y={5}
-        text={'아직 준비 중..'}
-      />
+        routerPath={'/Naver/SearchTrend'}
+      >
+        <DysonRingsDummy
+          scale={0.45}
+          rotation={[0, -Math.PI / 2, Math.PI / 6]}
+        />
+      </ScreenCustomModel>
+
       <ScreenText
         instances={instances}
         materials={materials}
@@ -966,7 +979,7 @@ export default function Televisions(props: ThreeElements['group']) {
         rotation={[0, -0.793, 0]}
         scale={0.81}
         x={-5}
-        text={'Welcome !'}
+        text={'Welcome...!!'}
         invert
       />
       <ScreenText
@@ -985,7 +998,7 @@ export default function Televisions(props: ThreeElements['group']) {
         panel='Object_231'
         position={[4.683, 4.29, -1.558]}
         rotation={[0, -Math.PI / 3, 0]}
-        text={'훈민정음'}
+        text={'Three Fiber Drei'}
       />
     </group>
   );
