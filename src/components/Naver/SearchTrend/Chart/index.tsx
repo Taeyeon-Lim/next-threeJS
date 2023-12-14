@@ -1,10 +1,17 @@
 'use client';
 
-import { Dispatch, SetStateAction, Suspense, useState, useMemo } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  Suspense,
+  useState,
+  useMemo,
+  useEffect,
+} from 'react';
 
 import { useRouter } from 'next/navigation';
 import { Canvas } from '@react-three/fiber';
-import { Ring, Text, Bounds, useCursor } from '@react-three/drei';
+import { Ring, Text, Bounds, useCursor, useBounds } from '@react-three/drei';
 
 import { SearchTrendData, SearchTrendDataset } from '@api/external/Naver';
 
@@ -28,6 +35,17 @@ const MIN_OUTER_RADIUS = 0.1;
 const OUTER_RADIUS = 2;
 const OUTER_RADIUS_RATIO =
   (OUTER_RADIUS - INNER_RADIUS - MIN_OUTER_RADIUS) * 0.01;
+
+// for. Bounds component Bug(?)
+const ResetBounds = () => {
+  const a = useBounds();
+
+  useEffect(() => {
+    a.reset();
+  }, [a]);
+
+  return null;
+};
 
 const PeriodRingChart = ({
   arc,
@@ -294,84 +312,100 @@ function Chart({
 
         {/* Chart Ring */}
         <Suspense fallback={null}>
-          <Bounds fit clip observe damping={6} margin={0.9}>
-            {
+          <Bounds
+            // patch error: https://github.com/pmndrs/drei/pull/1638
+            // 한 버전 위에서 Outlines의 버그가 수정됨 (drei 버전을 내리지 말 것)
+            //
+            // 작동 안되는 옵션:
+            // fit
+            // clip
+            // observe
+            margin={0.9}
+          >
+            <>
+              <ResetBounds /> {/* Bounds patch version check */}
               {
-                Period: (
-                  <>
-                    {isExist_allThemeData ? (
-                      allTheme.map((dataset, i) => {
-                        return (
-                          <PeriodRingChart
-                            key={`ALL_${i}_` + dataset.period}
-                            arc={isSingleData ? barEqualArc : barArc}
-                            start={
-                              isSingleData ? barEqualArc : barEqualArc * i + GAP
-                            }
-                            isHovered={
-                              hoveredDataset?.period === dataset.period
-                            }
-                            isMaxDataset={
-                              !!minmaxRatios &&
-                              minmaxRatios[minmaxRatios.length - 1].period ===
-                                dataset.period
-                            }
-                            isMinDataset={
-                              !!minmaxRatios &&
-                              minmaxRatios[0].period === dataset.period
-                            }
-                            dataset={dataset}
-                            setHoveredDataset={setHoveredDataset}
-                          />
-                        );
-                      })
-                    ) : isExist_seletedThemeData ? (
-                      seletedTheme.data.map((dataset, i) => {
-                        return (
-                          <PeriodRingChart
-                            key={seletedTheme.title + dataset.period}
-                            arc={isSingleData ? barEqualArc : barArc}
-                            start={
-                              isSingleData ? barEqualArc : barEqualArc * i + GAP
-                            }
-                            isHovered={
-                              hoveredDataset?.period === dataset.period
-                            }
-                            isMaxDataset={
-                              !!minmaxRatios &&
-                              minmaxRatios[minmaxRatios.length - 1].period ===
-                                dataset.period
-                            }
-                            isMinDataset={
-                              !!minmaxRatios &&
-                              minmaxRatios[0].period === dataset.period
-                            }
-                            dataset={dataset}
-                            setHoveredDataset={setHoveredDataset}
-                          />
-                        );
-                      })
-                    ) : (
-                      <PeriodRingChart
-                        key={'no_Data'}
-                        arc={THETA_LENGTH}
-                        start={0}
-                        isHovered={false}
-                        isMaxDataset={false}
-                        isMinDataset={false}
-                        dataset={{
-                          period: '데이터 없음',
-                          ratio: 0,
-                          title: '모든 데이터 없음',
-                        }}
-                        setHoveredDataset={setHoveredDataset}
-                      />
-                    )}
-                  </>
-                ),
-                Ratio: <>미구현</>,
-              }[chartType]
-            }
+                {
+                  Period: (
+                    <>
+                      {isExist_allThemeData ? (
+                        allTheme.map((dataset, i) => {
+                          return (
+                            <PeriodRingChart
+                              key={`ALL_${i}_` + dataset.period}
+                              arc={isSingleData ? barEqualArc : barArc}
+                              start={
+                                isSingleData
+                                  ? barEqualArc
+                                  : barEqualArc * i + GAP
+                              }
+                              isHovered={
+                                hoveredDataset?.period === dataset.period
+                              }
+                              isMaxDataset={
+                                !!minmaxRatios &&
+                                minmaxRatios[minmaxRatios.length - 1].period ===
+                                  dataset.period
+                              }
+                              isMinDataset={
+                                !!minmaxRatios &&
+                                minmaxRatios[0].period === dataset.period
+                              }
+                              dataset={dataset}
+                              setHoveredDataset={setHoveredDataset}
+                            />
+                          );
+                        })
+                      ) : isExist_seletedThemeData ? (
+                        seletedTheme.data.map((dataset, i) => {
+                          return (
+                            <PeriodRingChart
+                              key={seletedTheme.title + dataset.period}
+                              arc={isSingleData ? barEqualArc : barArc}
+                              start={
+                                isSingleData
+                                  ? barEqualArc
+                                  : barEqualArc * i + GAP
+                              }
+                              isHovered={
+                                hoveredDataset?.period === dataset.period
+                              }
+                              isMaxDataset={
+                                !!minmaxRatios &&
+                                minmaxRatios[minmaxRatios.length - 1].period ===
+                                  dataset.period
+                              }
+                              isMinDataset={
+                                !!minmaxRatios &&
+                                minmaxRatios[0].period === dataset.period
+                              }
+                              dataset={dataset}
+                              setHoveredDataset={setHoveredDataset}
+                            />
+                          );
+                        })
+                      ) : (
+                        <PeriodRingChart
+                          key={'no_Data'}
+                          arc={THETA_LENGTH}
+                          start={0}
+                          isHovered={false}
+                          isMaxDataset={false}
+                          isMinDataset={false}
+                          dataset={{
+                            period: '데이터 없음',
+                            ratio: 0,
+                            title: '모든 데이터 없음',
+                          }}
+                          setHoveredDataset={setHoveredDataset}
+                        />
+                      )}
+                    </>
+                  ),
+                  Ratio: <>미구현</>,
+                }[chartType]
+              }
+            </>
           </Bounds>
         </Suspense>
       </Canvas>
