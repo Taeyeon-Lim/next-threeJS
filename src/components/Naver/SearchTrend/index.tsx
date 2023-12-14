@@ -228,7 +228,7 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
         />
       }
     >
-      <Canvas shadows dpr={[0.5, 2]}>
+      <Canvas dpr={[0.5, 2]}>
         {/* Camera Control */}
         <Rig
           towerType={data.results.length % 2 ? 'odd' : 'even'}
