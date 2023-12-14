@@ -9,7 +9,7 @@ import {
 } from 'react';
 
 import { useGLTF, useAnimations, useCursor } from '@react-three/drei';
-import { GroupProps, useFrame, useGraph } from '@react-three/fiber';
+import { GroupProps, useFrame, useGraph, useThree } from '@react-three/fiber';
 import { Select } from '@react-three/postprocessing';
 import { useTimeout, useUpdateSearchParams } from '@utils/hookUtils';
 
@@ -67,6 +67,8 @@ export default function AlphaTower({
     };
   }, [actions, isDestroy]);
 
+  const deviceWidth = useThree(state => state.size.width);
+
   useTimeout(
     () => {
       if (group?.current) group.current.visible = false;
@@ -104,7 +106,11 @@ export default function AlphaTower({
       <group
         {...props}
         ref={group}
-        position={position}
+        position={
+          deviceWidth < 500
+            ? [position.x, position.y, position.z + 5.5]
+            : position
+        }
         onPointerOver={e => {
           e.stopPropagation();
 
@@ -119,6 +125,7 @@ export default function AlphaTower({
 
           if (towerKeyword) updateSearchParam('view', towerKeyword);
         }}
+        scale={deviceWidth < 500 ? 2.25 : 1}
         dispose={null}
       >
         <group name='Sketchfab_Scene'>
