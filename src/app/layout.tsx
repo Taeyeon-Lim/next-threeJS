@@ -26,7 +26,13 @@ export const metadata: Metadata = {
   generator: 'Next.js',
   applicationName: 'Next.js',
   referrer: 'origin-when-cross-origin',
-  keywords: [META_PROJECT_NAME, 'Next.js', 'TypeScript'],
+  keywords: [
+    META_PROJECT_NAME,
+    'Three.js',
+    'react three fiber',
+    'react three drei',
+    'r3f',
+  ],
   authors: [{ name: META_CREATOR, url: 'https://github.com/Taeyeon-Lim' }],
   creator: META_CREATOR,
   publisher: META_CREATOR,
@@ -89,7 +95,9 @@ export default function RootLayout({
 
         <main>{children}</main>
 
-        <Analytics mode='production' />
+        {process.env.NODE_ENV === 'production' && (
+          <Analytics mode='production' />
+        )}
       </body>
     </html>
   );
