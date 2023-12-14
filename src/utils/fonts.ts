@@ -3,7 +3,7 @@ import localFont from 'next/font/local';
 const notoSansKR_set = localFont({
   src: [
     {
-      path: '../../public/fonts/NotoSansKR-Bold.woff2',
+      path: '../../public/fonts/NotoSansKR-Light.woff2',
       weight: '300',
     },
     {
