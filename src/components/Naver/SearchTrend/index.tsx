@@ -105,7 +105,7 @@ const Rig = ({
     animation === 'up'
   );
 
-  useFrame(({ size }) => {
+  useFrame(async ({ size }) => {
     if (animation === 'up' || !towerType) {
       // Increase tower count
       if (!controlsRef?.current) return;
@@ -134,7 +134,7 @@ const Rig = ({
         );
       }
 
-      controlsRef.current.setLookAt(
+      await controlsRef.current.setLookAt(
         -90,
         165,
         5,
