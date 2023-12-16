@@ -323,7 +323,10 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
         </Selection>
 
         <Stage environment={null}>
-          <Environment path='/environment/' files='venice_sunset_1k.hdr' />
+          <Environment
+            path='/environment/'
+            files='venice_sunset_1k_custom.hdr'
+          />
         </Stage>
 
         <Suspense fallback={null}>
