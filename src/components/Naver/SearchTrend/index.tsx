@@ -21,6 +21,7 @@ import {
   Environment,
   OrbitControls,
   CameraControls,
+  Stage,
 } from '@react-three/drei';
 
 import {
@@ -321,13 +322,9 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
           </DysonRings>
         </Selection>
 
-        <Suspense fallback={null}>
-          <Environment
-            path='/environment/'
-            files={'venice_sunset_1k.hdr'}
-            resolution={64}
-          />
-        </Suspense>
+        <Stage environment={null}>
+          <Environment path='/environment/' files='venice_sunset_1k.hdr' />
+        </Stage>
 
         <Suspense fallback={null}>
           <Stars
