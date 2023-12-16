@@ -88,16 +88,20 @@ const nextConfig = {
             value: 'on',
           },
           // 브라우저의 콘텐츠 유형 추측 방지 (파일 업로드 및 공유 사이트에 대한 XSS 방지)
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
+          // {
+          //   key: 'X-Content-Type-Options',
+          //   value: 'nosniff',
+          // },
           // DOM 또는 Iframe 내의 브라우저 기능 사용 범위 설정
           {
             key: 'Permissions-Policy',
             value:
               'camera=(), microphone=(), geolocation=(), browsing-topics=()',
           },
+          // {
+          //   key: 'Strict-Transport-Security',
+          //   value: 'max-age=63072000; includeSubDomains; preload',
+          // },
           // `미들웨어에서 CSP-policy 설정 시, 필요없음` (IE, Chrome, Safari에서만 작동)
           //  CSP 지원이 안되는 브라우저에서 사용 시에도 XSS 취약점이 있을 수 있음
           // {
