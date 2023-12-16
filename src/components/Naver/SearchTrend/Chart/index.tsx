@@ -38,11 +38,11 @@ const OUTER_RADIUS_RATIO =
 
 // for. Bounds component Bug(?)
 const ResetBounds = () => {
-  const a = useBounds();
+  const bounds = useBounds();
 
   useEffect(() => {
-    a.reset();
-  }, [a]);
+    bounds.reset();
+  }, [bounds]);
 
   return null;
 };
@@ -224,7 +224,7 @@ function Chart({
         <BsX />
       </button>
 
-      <Canvas dpr={[1, 3]}>
+      <Canvas dpr={[1, 2.5]}>
         {/* display chart period */}
         <Suspense fallback={null}>
           <Text
@@ -323,7 +323,10 @@ function Chart({
             margin={0.9}
           >
             <>
-              <ResetBounds /> {/* Bounds patch version check */}
+              {/* Bounds patch version check */}
+              <ResetBounds />
+
+              {/* Chart Render */}
               {
                 {
                   Period: (
@@ -402,7 +405,7 @@ function Chart({
                       )}
                     </>
                   ),
-                  Ratio: <>미구현</>,
+                  Ratio: null, // 미구현
                 }[chartType]
               }
             </>

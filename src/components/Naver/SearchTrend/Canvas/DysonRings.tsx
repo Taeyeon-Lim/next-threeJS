@@ -2,19 +2,35 @@ import { Group, Color } from 'three';
 import {
   useState,
   useEffect,
-  useMemo,
   useRef,
-  startTransition,
   Suspense,
+  startTransition,
   PropsWithChildren,
 } from 'react';
 
-import { GroupProps, useFrame, useGraph, useThree } from '@react-three/fiber';
+import { GroupProps, useFrame, useThree } from '@react-three/fiber';
 import { Text, useGLTF, useAnimations, useCursor } from '@react-three/drei';
+
 import { useUpdateSearchParams } from '@utils/hookUtils';
 import { Select } from '@react-three/postprocessing';
 
-import { SearchTrendModelInstancesType } from '..';
+import { GLTF } from 'three-stdlib';
+type GLTFResult = GLTF & {
+  nodes: {
+    Object_6: THREE.Mesh;
+    Object_8: THREE.Mesh;
+    Object_12: THREE.Mesh;
+    Object_16: THREE.Mesh;
+    Object_10: THREE.Mesh;
+    Object_14: THREE.Mesh;
+  };
+  materials: {
+    MAT_METAL_1: THREE.MeshStandardMaterial;
+    MAT_LIGHT_1: THREE.MeshStandardMaterial;
+    MAT_LIGHT_2: THREE.MeshStandardMaterial;
+    MAT_LIGHT_3: THREE.MeshStandardMaterial;
+  };
+};
 
 const ROTATION_SPEED = 0.5;
 
@@ -36,23 +52,9 @@ export default function DysonRings({
 
   const deviceWidth = useThree(state => state.size.width);
 
-  // issue: performance slow
-  // const { scene, animations } = useGLTF('/naver/searchTrend/dyson_rings.glb');
-  const { scene, animations } = useGLTF(
-    '/naver/searchTrend/dyson_rings_small.glb'
-  );
-  const { nodes, materials } = useGraph(scene);
-  const instances: SearchTrendModelInstancesType = useMemo(
-    () => ({
-      Object_6: nodes.Object_6,
-      Object_8: nodes.Object_8,
-      Object_10: nodes.Object_10,
-      Object_12: nodes.Object_12,
-      Object_14: nodes.Object_14,
-      Object_16: nodes.Object_16,
-    }),
-    [nodes]
-  );
+  const { nodes, materials, animations } = useGLTF(
+    '/naver/searchTrend/dyson_rings_small_draco/dyson_rings_small.gltf'
+  ) as GLTFResult;
 
   const { actions } = useAnimations(animations, group);
 
@@ -129,7 +131,7 @@ export default function DysonRings({
                   <group name='RING-OUT-1_2' rotation={[0, -0.016, 0]}>
                     <mesh
                       name='Object_6'
-                      geometry={instances.Object_6.geometry}
+                      geometry={nodes.Object_6.geometry}
                       material={materials.MAT_METAL_1}
                     />
                   </group>
@@ -137,7 +139,7 @@ export default function DysonRings({
                   <group name='RING-OUT-2_3' rotation={[0, 0.016, 0]}>
                     <mesh
                       name='Object_8'
-                      geometry={instances.Object_8.geometry}
+                      geometry={nodes.Object_8.geometry}
                       material={materials.MAT_LIGHT_1}
                     />
                   </group>
@@ -149,7 +151,7 @@ export default function DysonRings({
                   >
                     <mesh
                       name='Object_10'
-                      geometry={instances.Object_10.geometry}
+                      geometry={nodes.Object_10.geometry}
                       material={materials.MAT_METAL_1}
                     />
                   </group>
@@ -161,7 +163,7 @@ export default function DysonRings({
                   >
                     <mesh
                       name='Object_12'
-                      geometry={instances.Object_12.geometry}
+                      geometry={nodes.Object_12.geometry}
                       material={materials.MAT_LIGHT_2}
                     />
                   </group>
@@ -173,7 +175,7 @@ export default function DysonRings({
                   >
                     <mesh
                       name='Object_14'
-                      geometry={instances.Object_14.geometry}
+                      geometry={nodes.Object_14.geometry}
                       material={materials.MAT_METAL_1}
                     />
                   </group>
@@ -185,7 +187,7 @@ export default function DysonRings({
                   >
                     <mesh
                       name='Object_16'
-                      geometry={instances.Object_16.geometry}
+                      geometry={nodes.Object_16.geometry}
                       material={materials.MAT_LIGHT_3}
                     />
                   </group>

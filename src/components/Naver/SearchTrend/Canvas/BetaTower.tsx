@@ -1,21 +1,26 @@
 import { Vector3, Color, Group } from 'three';
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  Suspense,
-  startTransition,
-} from 'react';
+import { useState, useEffect, useRef, Suspense, startTransition } from 'react';
 
+import { GroupProps, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, useAnimations, useCursor } from '@react-three/drei';
-import { GroupProps, useFrame, useGraph, useThree } from '@react-three/fiber';
+
 import { Select } from '@react-three/postprocessing';
 import { useTimeout, useUpdateSearchParams } from '@utils/hookUtils';
 
 import TowerName from './TowerName';
 
-import { SearchTrendModelInstancesType } from '..';
+import { GLTF } from 'three-stdlib';
+type GLTFResult = GLTF & {
+  nodes: {
+    Object_4: THREE.Mesh;
+    Object_5: THREE.Mesh;
+    Object_6: THREE.Mesh;
+  };
+  materials: {
+    MAT_LIGHT_1: THREE.MeshStandardMaterial;
+    MAT_Metal: THREE.MeshStandardMaterial;
+  };
+};
 
 export default function BetaTower({
   towerKeyword,
@@ -39,20 +44,9 @@ export default function BetaTower({
 
   const { updateSearchParam } = useUpdateSearchParams(null, 'push');
 
-  // issue: performance slow
-  // const { scene, animations } = useGLTF('/naver/searchTrend/beta_tower.glb');
-  const { scene, animations } = useGLTF(
-    '/naver/searchTrend/beta_tower_small.glb'
-  );
-  const { nodes, materials } = useGraph(scene);
-  const instances: SearchTrendModelInstancesType = useMemo(
-    () => ({
-      Object_4: nodes.Object_4,
-      Object_5: nodes.Object_5,
-      Object_6: nodes.Object_6,
-    }),
-    [nodes]
-  );
+  const { nodes, materials, animations } = useGLTF(
+    '/naver/searchTrend/beta_tower_small_draco/beta_tower.gltf'
+  ) as GLTFResult;
 
   const { actions } = useAnimations(animations, group);
 
@@ -136,19 +130,19 @@ export default function BetaTower({
                 <group name='PILAR_1_0' scale={[1.76, 4.598, 1.76]}>
                   <mesh
                     name='Object_4'
-                    geometry={instances.Object_4.geometry}
+                    geometry={nodes.Object_4.geometry}
                     material={materials.MAT_LIGHT_1}
                   />
 
                   <mesh
                     name='Object_5'
-                    geometry={instances.Object_5.geometry}
+                    geometry={nodes.Object_5.geometry}
                     material={materials.MAT_Metal}
                   />
 
                   <mesh
                     name='Object_6'
-                    geometry={instances.Object_6.geometry}
+                    geometry={nodes.Object_6.geometry}
                     material={materials.MAT_Metal}
                   />
                 </group>

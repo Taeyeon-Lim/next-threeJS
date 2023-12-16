@@ -3,6 +3,7 @@ import './globals.scss';
 
 import { Metadata } from 'next';
 
+import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
 
 import Navigator from '@components/Navigator';
@@ -94,6 +95,9 @@ export default function RootLayout({
         <Navigator />
 
         <main>{children}</main>
+
+        {/* Draco preLoad */}
+        <Script src='https://www.gstatic.com/draco/versioned/decoders/1.5.5/draco_wasm_wrapper.js' />
 
         {process.env.NODE_ENV === 'production' && (
           <Analytics mode='production' />

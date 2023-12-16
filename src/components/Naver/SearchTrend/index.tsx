@@ -31,9 +31,8 @@ import {
 import { degToRad } from 'three/src/math/MathUtils';
 import { useTimeout } from '@utils/hookUtils';
 
-import DysonRingsDummy from './Canvas/DysonRingsDummy';
-import AlphaTowerAnimation from './Canvas/AlphaTowerDummy';
-import BetaTowerAnimation from './Canvas/BetaTowerDummy';
+import AlphaTowerAnimation from './Canvas/AlphaTowerAnimation';
+import BetaTowerAnimation from './Canvas/BetaTowerAnimation';
 import DysonRings from './Canvas/DysonRings';
 import AlphaTower from './Canvas/AlphaTower';
 import BetaTower from './Canvas/BetaTower';
@@ -43,11 +42,6 @@ import { SearchTrendData } from '@api/external/Naver';
 import { type OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { type OutlineEffect } from 'postprocessing';
 
-export type SearchTrendModelInstancesType = {
-  [name: string]: THREE.Object3D<THREE.Object3DEventMap> & {
-    geometry?: THREE.BufferGeometry;
-  };
-};
 export type AnimationState = 'up' | 'down' | 'reset' | null;
 
 const RADIUS = 30;
@@ -252,94 +246,82 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
         />
 
         {/* Model */}
-        <Suspense fallback={<DysonRingsDummy />}>
+        <Selection>
           {/* Outline effect */}
-          <Selection>
-            <EffectComposer
-              multisampling={8}
-              autoClear={false}
-              renderPriority={1}
-            >
-              <Outline
-                ref={outlineRef}
-                visibleEdgeColor={0xffffff}
-                edgeStrength={50}
-                width={1000}
-                height={1000}
-                blur
-              />
-            </EffectComposer>
+          <EffectComposer
+            multisampling={8}
+            autoClear={false}
+            renderPriority={1}
+          >
+            <Outline
+              ref={outlineRef}
+              visibleEdgeColor={0xffffff}
+              edgeStrength={50}
+              width={1000}
+              height={1000}
+              blur
+            />
+          </EffectComposer>
 
-            <DysonRings
-              isBlockChart={isBlockChart}
-              hoveredOutlineColor={hoveredOutlineColor}
-            >
-              {Array.from(
-                {
-                  length: towerCount,
-                },
-                (_, i) => i
-              ).map((key, index) => {
-                const positionX =
-                  Math.sin((2 * Math.PI * key) / towerCount) * RADIUS;
-                const positionZ =
-                  Math.cos((2 * Math.PI * key) / towerCount) * RADIUS;
-                const position = new THREE.Vector3(
-                  parseFloat(positionX.toFixed(5)),
-                  0.5,
-                  parseFloat(positionZ.toFixed(5))
+          <DysonRings
+            isBlockChart={isBlockChart}
+            hoveredOutlineColor={hoveredOutlineColor}
+          >
+            {Array.from(
+              {
+                length: towerCount,
+              },
+              (_, i) => i
+            ).map((key, index) => {
+              const positionX =
+                Math.sin((2 * Math.PI * key) / towerCount) * RADIUS;
+              const positionZ =
+                Math.cos((2 * Math.PI * key) / towerCount) * RADIUS;
+              const position = new THREE.Vector3(
+                parseFloat(positionX.toFixed(5)),
+                0.5,
+                parseFloat(positionZ.toFixed(5))
+              );
+              const searchWord = data.results.map(result => result.title)[
+                index
+              ];
+
+              if (index % 2) {
+                return (
+                  <BetaTower
+                    key={'BetaTower_' + index}
+                    towerKeyword={searchWord}
+                    isDestroy={
+                      (animation === 'reset' && index !== 0) ||
+                      (index === towerCount - 1 && animation === 'down')
+                    }
+                    afterDownAnimation={afterTowerCountAnimation}
+                    isBlockChart={isBlockChart}
+                    hoveredOutlineColor={hoveredOutlineColor}
+                    position={position}
+                  />
                 );
-                const searchWord = data.results.map(result => result.title)[
-                  index
-                ];
+              } else {
+                return (
+                  <AlphaTower
+                    key={'AlphaTower_' + index}
+                    towerKeyword={searchWord}
+                    isDestroy={
+                      (animation === 'reset' && index !== 0) ||
+                      (index === towerCount - 1 && animation === 'down')
+                    }
+                    afterDownAnimation={afterTowerCountAnimation}
+                    isBlockChart={isBlockChart}
+                    hoveredOutlineColor={hoveredOutlineColor}
+                    position={position}
+                  />
+                );
+              }
+            })}
+          </DysonRings>
+        </Selection>
 
-                if (index % 2) {
-                  return (
-                    <Suspense
-                      key={'BetaTower_' + index}
-                      //  fallback={<BetaTowerDummy position={position} />}
-                      fallback={null}
-                    >
-                      <BetaTower
-                        towerKeyword={searchWord}
-                        isDestroy={
-                          (animation === 'reset' && index !== 0) ||
-                          (index === towerCount - 1 && animation === 'down')
-                        }
-                        afterDownAnimation={afterTowerCountAnimation}
-                        isBlockChart={isBlockChart}
-                        hoveredOutlineColor={hoveredOutlineColor}
-                        position={position}
-                      />
-                    </Suspense>
-                  );
-                } else {
-                  return (
-                    <Suspense
-                      key={'AlphaTower_' + index}
-                      // fallback={<AlphaTowerDummy position={position} />}
-                      fallback={null}
-                    >
-                      <AlphaTower
-                        towerKeyword={searchWord}
-                        isDestroy={
-                          (animation === 'reset' && index !== 0) ||
-                          (index === towerCount - 1 && animation === 'down')
-                        }
-                        afterDownAnimation={afterTowerCountAnimation}
-                        isBlockChart={isBlockChart}
-                        hoveredOutlineColor={hoveredOutlineColor}
-                        position={position}
-                      />
-                    </Suspense>
-                  );
-                }
-              })}
-            </DysonRings>
-          </Selection>
-        </Suspense>
-
-        <Environment preset='sunset' resolution={256} />
+        <Environment files={'/sunset.hdr'} resolution={64} />
 
         <Suspense fallback={null}>
           <Stars

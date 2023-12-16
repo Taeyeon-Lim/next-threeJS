@@ -9,7 +9,7 @@ import {
   ScreenImage,
   ScreenText,
 } from './Screen';
-import DysonRingsDummy from '@components/Naver/SearchTrend/Canvas/DysonRingsDummy';
+import DysonRingsThumbnail from '@components/Home/DysonRingsThumbnail';
 
 export type TelevisionInstancesType = {
   [name: string]: THREE.Object3D<THREE.Object3DEventMap> & {
@@ -952,7 +952,7 @@ export default function Televisions(props: ThreeElements['group']) {
         rotation={[0, 1.002, 0]}
         routerPath={'/Naver/SearchTrend'}
       >
-        <DysonRingsDummy
+        <DysonRingsThumbnail
           scale={0.45}
           rotation={[0, -Math.PI / 2, Math.PI / 6]}
         />

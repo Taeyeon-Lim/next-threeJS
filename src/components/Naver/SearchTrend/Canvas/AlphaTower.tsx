@@ -1,21 +1,25 @@
 import { Vector3, Color, Group } from 'three';
-import {
-  useState,
-  useEffect,
-  useMemo,
-  useRef,
-  Suspense,
-  startTransition,
-} from 'react';
+import { useState, useEffect, useRef, Suspense, startTransition } from 'react';
 
+import { GroupProps, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, useAnimations, useCursor } from '@react-three/drei';
-import { GroupProps, useFrame, useGraph, useThree } from '@react-three/fiber';
+
 import { Select } from '@react-three/postprocessing';
 import { useTimeout, useUpdateSearchParams } from '@utils/hookUtils';
 
 import TowerName from './TowerName';
 
-import { SearchTrendModelInstancesType } from '..';
+import { GLTF } from 'three-stdlib';
+type GLTFResult = GLTF & {
+  nodes: {
+    Object_4: THREE.Mesh;
+    Object_5: THREE.Mesh;
+  };
+  materials: {
+    MAT_LIGHT_2: THREE.MeshStandardMaterial;
+    MAT_Metal_2: THREE.MeshStandardMaterial;
+  };
+};
 
 export default function AlphaTower({
   towerKeyword,
@@ -39,19 +43,9 @@ export default function AlphaTower({
 
   const { updateSearchParam } = useUpdateSearchParams(null, 'push');
 
-  // issue: performance slow
-  // const { scene, animations } = useGLTF('/naver/searchTrend/alpha_tower.glb');
-  const { scene, animations } = useGLTF(
-    '/naver/searchTrend/alpha_tower_small.glb'
-  );
-  const { nodes, materials } = useGraph(scene);
-  const instances: SearchTrendModelInstancesType = useMemo(
-    () => ({
-      Object_4: nodes.Object_4,
-      Object_5: nodes.Object_5,
-    }),
-    [nodes]
-  );
+  const { nodes, materials, animations } = useGLTF(
+    '/naver/searchTrend/alpha_tower_small_draco/alpha_tower.gltf'
+  ) as GLTFResult;
 
   const { actions } = useAnimations(animations, group);
 
@@ -135,13 +129,13 @@ export default function AlphaTower({
                 <group name='PILLAR_ALPHA_0' scale={[-1.166, -6.301, -1.166]}>
                   <mesh
                     name='Object_4'
-                    geometry={instances.Object_4.geometry}
+                    geometry={nodes.Object_4.geometry}
                     material={materials.MAT_LIGHT_2}
                   />
 
                   <mesh
                     name='Object_5'
-                    geometry={instances.Object_5.geometry}
+                    geometry={nodes.Object_5.geometry}
                     material={materials.MAT_Metal_2}
                   />
                 </group>
