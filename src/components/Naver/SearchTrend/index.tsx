@@ -323,7 +323,7 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
 
         <Suspense fallback={null}>
           <Environment
-            files={'/environment/local_sunset.hdr'}
+            files={'/environment/venice_sunset_1k.hdr'}
             resolution={64}
           />
         </Suspense>
