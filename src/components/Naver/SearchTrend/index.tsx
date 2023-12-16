@@ -41,9 +41,9 @@ import { SearchTrendData } from '@api/external/Naver';
 
 import { type OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { type OutlineEffect } from 'postprocessing';
-
 export type AnimationState = 'up' | 'down' | 'reset' | null;
 
+import { DOMAIN_URL } from '@utils/env';
 const RADIUS = 30;
 
 const Rig = ({
@@ -321,7 +321,10 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
           </DysonRings>
         </Selection>
 
-        <Environment files={'/environment/local_sunset.hdr'} resolution={64} />
+        <Environment
+          files={`${DOMAIN_URL}/environment/local_sunset.hdr`}
+          resolution={64}
+        />
 
         <Suspense fallback={null}>
           <Stars
