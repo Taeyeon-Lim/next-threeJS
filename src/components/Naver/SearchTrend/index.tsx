@@ -21,7 +21,6 @@ import {
   Environment,
   OrbitControls,
   CameraControls,
-  Stage,
 } from '@react-three/drei';
 
 import {
@@ -44,7 +43,6 @@ import { type OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { type OutlineEffect } from 'postprocessing';
 export type AnimationState = 'up' | 'down' | 'reset' | null;
 
-import { DOMAIN_URL } from '@utils/env';
 const RADIUS = 30;
 
 const Rig = ({
@@ -322,12 +320,7 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
           </DysonRings>
         </Selection>
 
-        <Stage environment={null}>
-          <Environment
-            path='/environment/'
-            files='venice_sunset_1k_custom.hdr'
-          />
-        </Stage>
+        <Environment files='https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/venice_sunset_1k.hdr' />
 
         <Suspense fallback={null}>
           <Stars
