@@ -321,10 +321,12 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
           </DysonRings>
         </Selection>
 
-        <Environment
-          files={`${DOMAIN_URL}/environment/local_sunset.hdr`}
-          resolution={64}
-        />
+        <Suspense fallback={null}>
+          <Environment
+            files={'/environment/local_sunset.hdr'}
+            resolution={64}
+          />
+        </Suspense>
 
         <Suspense fallback={null}>
           <Stars
