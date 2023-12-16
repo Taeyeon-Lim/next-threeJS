@@ -21,6 +21,7 @@ import {
   Environment,
   OrbitControls,
   CameraControls,
+  Stage,
 } from '@react-three/drei';
 
 import {
@@ -320,7 +321,12 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
           </DysonRings>
         </Selection>
 
-        <Environment files='https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/venice_sunset_1k.hdr' />
+        <Stage environment={null}>
+          <Environment
+            path='https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/'
+            files='venice_sunset_1k.hdr'
+          />
+        </Stage>
 
         <Suspense fallback={null}>
           <Stars
