@@ -101,11 +101,7 @@ export default function BetaTower({
       <group
         {...props}
         ref={group}
-        position={
-          deviceWidth < 500
-            ? [position.x, position.y, position.z - 3]
-            : position
-        }
+        position={position}
         onPointerOver={e => {
           e.stopPropagation();
 
@@ -120,7 +116,7 @@ export default function BetaTower({
 
           if (towerKeyword) updateSearchParam('view', towerKeyword);
         }}
-        scale={deviceWidth < 500 ? 2 : 1}
+        scale={deviceWidth < 500 ? 1.6 : 1}
         dispose={null}
       >
         <group name='Sketchfab_Scene'>
