@@ -187,8 +187,10 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
   const outlineRef = useRef<OutlineEffect | null>(null!);
   const hoveredOutlineColor = useCallback(
     (hover: boolean, color: THREE.Color) => {
-      if (outlineRef.current && hover)
+      if (outlineRef.current && hover) {
         outlineRef.current.visibleEdgeColor = color;
+        outlineRef.current.hiddenEdgeColor = color;
+      }
     },
     []
   );
@@ -272,6 +274,7 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
             <Outline
               ref={outlineRef}
               visibleEdgeColor={0xffffff}
+              hiddenEdgeColor={0xffffff}
               edgeStrength={50}
               width={1000}
               height={1000}
