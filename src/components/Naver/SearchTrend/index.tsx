@@ -18,10 +18,11 @@ import {
   Stats,
   Loader,
   Sparkles,
+  SpotLight,
   Environment,
+  Lightformer,
   OrbitControls,
   CameraControls,
-  Stage,
 } from '@react-three/drei';
 
 import {
@@ -231,19 +232,34 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
         />
 
         {/* Light */}
-        <ambientLight intensity={1.5} color={'Lightcoral'} />
+        <ambientLight intensity={1.5} />
         <hemisphereLight
-          position={[5, 5, -5]}
-          intensity={1}
-          groundColor='blue'
+          intensity={2.2}
+          color='#00498C'
+          groundColor='#00498C'
         />
-        <spotLight
-          position={[15, 20, 0]}
-          angle={0.25}
-          penumbra={1}
-          intensity={1}
-          color={'Lightcoral'}
-        />
+        <Suspense fallback={null}>
+          <SpotLight
+            position={[50, -5, 75]}
+            angle={5}
+            penumbra={1}
+            intensity={2}
+            distance={450}
+            color='#f7dac1'
+            anglePower={0}
+            attenuation={0}
+          />
+          <SpotLight
+            position={[0, 15, 0]}
+            angle={1}
+            penumbra={1}
+            intensity={10}
+            distance={35}
+            color='#eeeeee'
+            anglePower={0}
+            attenuation={0}
+          />
+        </Suspense>
 
         {/* Model */}
         <Selection>
@@ -321,12 +337,17 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
           </DysonRings>
         </Selection>
 
-        <Stage environment={null}>
-          <Environment
-            path='https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/'
-            files='venice_sunset_1k.hdr'
+        {/* Env - former */}
+        <Environment background blur={1} resolution={128}>
+          <Lightformer
+            form={'circle'}
+            intensity={0.04}
+            color='#f7dac1'
+            position={[10, 0, 10]}
+            scale={45}
+            target={[0, 0, 0]}
           />
-        </Stage>
+        </Environment>
 
         <Suspense fallback={null}>
           <Stars
