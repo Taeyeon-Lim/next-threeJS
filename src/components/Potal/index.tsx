@@ -1,5 +1,6 @@
 'use client';
 
+import * as THREE from 'three';
 import {
   useRef,
   useState,
@@ -10,20 +11,20 @@ import {
   SetStateAction,
 } from 'react';
 
-import * as THREE from 'three';
 import { Canvas, GroupProps, useFrame, useThree } from '@react-three/fiber';
 import {
   Text,
   Loader,
   Sphere,
+  useCursor,
   RoundedBox,
-  Environment,
+  useTexture,
   CameraControls,
   MeshPortalMaterial,
-  useCursor,
-  useTexture,
   PortalMaterialType,
+  Environment,
 } from '@react-three/drei';
+
 import { damp } from 'maath/easing';
 import { degToRad } from 'three/src/math/MathUtils';
 
@@ -116,8 +117,9 @@ const Stage = ({
   props?: GroupProps;
 }) => {
   const [eng, kor] = name.split(',');
-  const map = useTexture(texture);
   const potalMaterialRef = useRef<PortalMaterialType>(null!);
+
+  const map = useTexture(texture);
 
   useFrame((_state, delta) => {
     if (!potalMaterialRef.current) return;
@@ -186,20 +188,23 @@ const Stage = ({
           }
         }}
       >
-        <MeshPortalMaterial
-          ref={potalMaterialRef}
-          side={THREE.DoubleSide}
-          // blend={activeWorldName === name ? 1 : undefined}
-        >
-          <ambientLight intensity={0.75} />
-
-          <Environment preset='sunset' />
-
-          <Sphere args={[5, 64, 64]}>
-            <meshStandardMaterial map={map} side={THREE.BackSide} />
-          </Sphere>
+        <MeshPortalMaterial ref={potalMaterialRef} side={THREE.DoubleSide}>
+          <ambientLight intensity={1} />
+          <spotLight
+            angle={1.5}
+            intensity={1}
+            position={[0, 3, 3]}
+            castShadow={false}
+            dispose={null}
+          />
 
           {children}
+
+          <Environment background resolution={2048}>
+            <Sphere args={[5, 64, 32]}>
+              <meshBasicMaterial map={map} side={THREE.BackSide} />
+            </Sphere>
+          </Environment>
         </MeshPortalMaterial>
       </RoundedBox>
     </group>
@@ -225,16 +230,7 @@ function Potal() {
         />
       }
     >
-      <Guide hovered={hovered} activeWorldName={activeWorldName} />
-
-      <Canvas
-        shadows
-        dpr={[1, 2]}
-        // camera={{
-        //   position: [0, 0, 10],
-        //   fov: 30,
-        // }}
-      >
+      <Canvas shadows dpr={[1, 2]}>
         <ambientLight intensity={0.5} />
 
         <Rig activeWorldName={activeWorldName} />
@@ -310,6 +306,10 @@ function Potal() {
           </Suspense>
         </Stage>
       </Canvas>
+
+      <Suspense fallback={null}>
+        <Guide hovered={hovered} activeWorldName={activeWorldName} />
+      </Suspense>
     </Suspense>
   );
 }
