@@ -6,6 +6,7 @@ import { FaKorvue } from 'react-icons/fa';
 
 import styles from '@app/Potal/potal.module.scss';
 import classnames from 'classnames/bind';
+import { useProgress } from '@react-three/drei';
 const cx = classnames.bind(styles);
 
 const KOR_MOSETER_GUIDE: {
@@ -75,6 +76,9 @@ function Guide({
   hovered: string;
   activeWorldName: string;
 }) {
+  const progress = useProgress(s => s.progress);
+  const isVisible = progress === 100;
+
   const [engName, korName] = hovered.split(',');
 
   const [isKor, setIsKor] = useState(true);
@@ -90,6 +94,7 @@ function Guide({
       <div
         className={cx('potal-guide', {
           'close-guide': isClose,
+          loaded: isVisible,
         })}
       >
         {hovered === '' || isClose ? (
@@ -139,6 +144,7 @@ function Guide({
     <div
       className={cx('potal-guide', {
         'close-guide': isClose,
+        loaded: isVisible,
       })}
     >
       {hovered === '' || isClose ? (
