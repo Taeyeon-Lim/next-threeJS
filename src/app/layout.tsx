@@ -5,6 +5,7 @@ import { Metadata } from 'next';
 
 import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import Navigator from '@components/Navigator';
 
@@ -100,7 +101,10 @@ export default function RootLayout({
         <Script src='https://www.gstatic.com/draco/versioned/decoders/1.5.5/draco_wasm_wrapper.js' />
 
         {process.env.NODE_ENV === 'production' && (
-          <Analytics mode='production' />
+          <>
+            <Analytics mode='production' />
+            <SpeedInsights />
+          </>
         )}
       </body>
     </html>
