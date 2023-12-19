@@ -12,6 +12,7 @@ import {
   MeshReflectorMaterial,
   BakeShadows,
 } from '@react-three/drei';
+
 import {
   EffectComposer,
   BrightnessContrast,
@@ -126,8 +127,16 @@ function Television() {
   );
 
   return (
-    <>
+    <Suspense
+      fallback={
+        <Loader
+          containerStyles={{ background: 'black' }}
+          dataStyles={{ color: 'white' }}
+        />
+      }
+    >
       <button
+        name='fixed-viewpoint'
         className={cx('autoBack-button')}
         onClick={() => {
           setIsOverPointer(autoFallback);
@@ -182,46 +191,35 @@ function Television() {
         <Rig isOverCanvas={debouncedOverPointer} />
 
         {/* Mesh */}
-        <Suspense fallback={null}>
-          <Televisions scale={1} position={[0, -2, 2]} />
-        </Suspense>
 
-        <Suspense fallback={null}>
-          <mesh
-            receiveShadow
-            position={[0, -2, -5]}
-            rotation={[-Math.PI / 2, 0, 0]}
-          >
-            <planeGeometry args={[35, 35]} />
-            <MeshReflectorMaterial
-              blur={[300, 30]}
-              resolution={1024}
-              mixBlur={1}
-              mixStrength={80}
-              roughness={1}
-              depthScale={1.4}
-              minDepthThreshold={0.4}
-              maxDepthThreshold={1.2}
-              color='#202020'
-              metalness={0.75}
-              mirror={0}
-            />
-          </mesh>
-        </Suspense>
+        <Televisions scale={1} position={[0, -2, 2]} />
 
-        {/* Env */}
-        <Environment background>
-          <mesh>
-            <sphereGeometry args={[5, 5, 5]} />
-            <meshBasicMaterial color={'black'} side={THREE.BackSide} />
-          </mesh>
-        </Environment>
+        <mesh
+          receiveShadow
+          position={[0, -2, -5]}
+          rotation={[-Math.PI / 2, 0, 0]}
+        >
+          <planeGeometry args={[35, 35]} />
+          <MeshReflectorMaterial
+            blur={[300, 30]}
+            resolution={1024}
+            mixBlur={1}
+            mixStrength={80}
+            roughness={1}
+            depthScale={1.4}
+            minDepthThreshold={0.4}
+            maxDepthThreshold={1.2}
+            color='#202020'
+            metalness={0.75}
+            mirror={0}
+          />
+        </mesh>
 
         <EffectComposer disableNormalPass>
           <Bloom
-            luminanceThreshold={0}
-            luminanceSmoothing={0}
-            intensity={2}
+            luminanceThreshold={0.05}
+            luminanceSmoothing={0.05}
+            intensity={1}
             mipmapBlur
           />
           <BrightnessContrast
@@ -231,19 +229,22 @@ function Television() {
           <DepthOfField
             target={[0, 0, 30]}
             focalLength={0.3}
-            bokehScale={25}
+            bokehScale={20}
             height={500}
           />
         </EffectComposer>
 
+        {/* Env */}
+        <Environment background resolution={256}>
+          <mesh>
+            <sphereGeometry args={[5, 5, 5]} />
+            <meshBasicMaterial color={'black'} side={THREE.BackSide} />
+          </mesh>
+        </Environment>
+
         <BakeShadows />
       </Canvas>
-
-      <Loader
-        containerStyles={{ background: 'black' }}
-        dataStyles={{ color: 'white' }}
-      />
-    </>
+    </Suspense>
   );
 }
 

@@ -7,12 +7,11 @@ import { ThreeElements, Vector3, useFrame } from '@react-three/fiber';
 import { useRouter } from 'next/navigation';
 import {
   Text,
+  Stars,
   Image,
   useCursor,
   RenderTexture,
   PerspectiveCamera,
-  Stars,
-  Sparkles,
 } from '@react-three/drei';
 
 import { TelevisionInstancesType } from './Televisions';
@@ -217,11 +216,7 @@ export function ScreenCustomModel({
   routerPath,
   children,
   ...props
-}: PropsWithChildren<
-  {
-    routerPath: string;
-  } & ScreenProps
->) {
+}: PropsWithChildren<ScreenProps & { routerPath: string }>) {
   const router = useRouter();
   const [hovered, setHovered] = useState(false);
 
@@ -258,20 +253,13 @@ export function ScreenCustomModel({
       {children}
 
       <Stars
+        count={hovered ? 40 : 20}
+        factor={hovered ? 5 : 2.5}
+        speed={hovered ? 3.5 : 1.5}
+        saturation={0.2}
         radius={1}
         depth={5}
-        count={20}
-        factor={2}
-        saturation={0.2}
-        speed={1}
         fade
-      />
-      <Sparkles
-        count={25}
-        speed={5}
-        opacity={hovered ? 0.5 : 0}
-        size={65}
-        scale={20}
       />
     </Screen>
   );
