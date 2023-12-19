@@ -192,3 +192,23 @@ input[type='date'] {
     }
   }
 }
+
+// Drei - Stats
+.stats {
+  &.top {
+    top: 0;
+    bottom: initial !important;
+  }
+  &.bottom {
+    bottom: 0;
+    top: initial !important;
+  }
+  &.left {
+    left: 0;
+    right: initial !important;
+  }
+  &.right {
+    left: initial !important;
+    right: 0;
+  }
+}

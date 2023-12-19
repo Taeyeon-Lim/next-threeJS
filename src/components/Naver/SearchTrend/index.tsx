@@ -304,7 +304,6 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
               const searchWord = data.results.map(result => result.title)[
                 index
               ];
-
               if (index % 2) {
                 return (
                   <BetaTower
@@ -341,7 +340,7 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
         </Selection>
 
         {/* Env - former */}
-        <Environment background blur={1} resolution={128}>
+        <Environment background blur={1} resolution={256}>
           <Lightformer
             form={'circle'}
             intensity={0.04}
@@ -372,7 +371,7 @@ function SearchTrend({ data }: { data: SearchTrendData }) {
         </Suspense>
 
         {process.env.NODE_ENV === 'development' && (
-          <Stats showPanel={0} className='stats' />
+          <Stats showPanel={0} className='stats left bottom' />
         )}
       </Canvas>
 
