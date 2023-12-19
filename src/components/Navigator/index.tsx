@@ -10,7 +10,7 @@ import styles from './index.module.scss';
 import classnames from 'classnames/bind';
 const cx = classnames.bind(styles);
 
-import { NAVIGATOR_LINKS } from 'src/utils/env';
+import NAVIGATOR_LINKS from '@utils/links';
 
 const Navigator = () => {
   const [isOpenNavi, setIsOpenNavi] = useState(false);

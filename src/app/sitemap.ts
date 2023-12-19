@@ -1,8 +1,14 @@
 import { MetadataRoute } from 'next';
-import { DOMAIN_URL, NAVIGATOR_LINKS } from 'src/utils/env';
+import NAVIGATOR_LINKS from '@utils/links';
+
+const DOMAIN_URL = process.env.domainURL;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const LAST_MODIFIED = new Date();
+
+  if (!DOMAIN_URL) {
+    throw new Error('Not Found Domain URL');
+  }
 
   return NAVIGATOR_LINKS.map(link => {
     const firstPath = {

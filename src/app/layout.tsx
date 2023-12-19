@@ -11,10 +11,10 @@ import Navigator from '@components/Navigator';
 
 import global_fontFamily from '@utils/fonts';
 
-import { DOMAIN_URL } from 'src/utils/env';
 export const PLACEHOLDER_BASE64_IMAGE =
   'data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBAB  bWyZJf74GZgAAAABJRU5ErkJggg==';
 
+const DOMAIN_URL = process.env.domainURL;
 const META_DESCRIPTION = 'Three.js 토이 프로젝트';
 const META_PROJECT_NAME = 'Three-ty';
 const META_CREATOR = 'Taeyeon Lim';

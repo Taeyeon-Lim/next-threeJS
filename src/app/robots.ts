@@ -1,7 +1,12 @@
 import { MetadataRoute } from 'next';
-import { DOMAIN_URL } from 'src/utils/env';
+
+const DOMAIN_URL = process.env.domainURL;
 
 export default function robots(): MetadataRoute.Robots {
+  if (!DOMAIN_URL) {
+    throw new Error('Not Found Domain URL');
+  }
+
   return {
     rules: {
       userAgent: '*',

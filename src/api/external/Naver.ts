@@ -1,8 +1,9 @@
 import 'server-only';
 
-import { NAVER_CLIENT } from '@utils/env';
 import { SELECT_INITIAL_DATE } from '@components/Naver/SearchTrend/variables';
 
+const NAVER_CLIENT_ID = process.env.naverClientID;
+const NAVER_SECRET = process.env.naverSecret;
 const [INITIAL_START_DATE, INITIAL_END_DATE] = SELECT_INITIAL_DATE();
 
 type agesRequestItem =
@@ -63,8 +64,8 @@ export const getNaverSearchTrend = async (request: {
   ages: string[];
   gender: string;
 }) => {
-  if (!NAVER_CLIENT?.clientID || !NAVER_CLIENT?.secret) {
-    throw new Error('Not Found Env : NAVER_CLIENT');
+  if (!NAVER_CLIENT_ID || !NAVER_SECRET) {
+    throw new Error('Not Found Env : NAVER_CLIENT_KEY');
   }
   if (!request || JSON.stringify(request) === '{}') {
     throw new Error('Invalid Request : Naver Search Trend');
@@ -92,8 +93,8 @@ export const getNaverSearchTrend = async (request: {
     cache: 'force-cache', // default
     method: 'POST',
     headers: {
-      'X-Naver-Client-Id': NAVER_CLIENT.clientID,
-      'X-Naver-Client-Secret': NAVER_CLIENT.secret,
+      'X-Naver-Client-Id': NAVER_CLIENT_ID,
+      'X-Naver-Client-Secret': NAVER_SECRET,
       'Content-type': 'application/json; charset=UTF-8',
     },
     body: JSON.stringify({

@@ -3,55 +3,9 @@ const path = require('path');
 
 const nextConfig = {
   env: {
-    naverClient: {
-      clientID: '9irpe0J7J5c3E3Rix3m8',
-      secret: 'Z85h1LkXdk',
-    },
     domainURL: 'https://three-ty.vercel.app',
-    navigatorLinks: [
-      {
-        path: '/',
-        name: 'Home',
-        createdBy: '2023-07-30',
-      },
-      {
-        path: '/Box',
-        name: 'Box',
-        createdBy: '2023-07-07',
-      },
-      // {
-      //   path: '/Galaxy',
-      //   name: 'Galaxy',
-      //   createdBy: '2023-07-09',
-      // },
-      // {
-      //   path: '/Camera',
-      //   name: 'Camera',
-      //   createdBy: '2023-07-14',
-      // },
-      {
-        path: '/Potal',
-        name: 'Potal',
-        createdBy: '2023-07-29',
-      },
-      {
-        path: '/Totoro',
-        name: 'Totoro',
-        createdBy: '2023-08-03',
-      },
-      {
-        path: '/Naver',
-        name: 'Letter',
-        createdBy: '20XX-XX-XX',
-        subPaths: [
-          {
-            path: '/SearchTrend',
-            name: 'SearchTrend',
-            createdBy: '2023-10-27',
-          },
-        ],
-      },
-    ],
+    naverClientID: '9irpe0J7J5c3E3Rix3m8',
+    naverSecret: 'Z85h1LkXdk',
   },
   images: {
     formats: ['image/avif', 'image/webp'],
