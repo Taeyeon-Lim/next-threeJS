@@ -22,10 +22,10 @@
 
     @keyframes slide {
       from {
-        left: -25rem;
+        transform: translate3d(-25rem, 0, 0);
       }
       to {
-        left: 0;
+        transform: translate3d(0, 0, 0);
       }
     }
 
