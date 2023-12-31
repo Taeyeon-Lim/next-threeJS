@@ -48,6 +48,11 @@ const NAVIGATOR_LINKS: NaviPaths = [
       },
     ],
   },
+  {
+    path: '/Bead',
+    name: 'Bead',
+    createdBy: '2023-12-31',
+  },
 ];
 
 export default NAVIGATOR_LINKS;
