@@ -31,6 +31,14 @@ const nextConfig = {
   // compiler: {
   //   removeConsole: true // 콘솔 메시지 제거
   // },
+
+  webpack: (config, _options) => {
+    config.module.rules.push({
+      test: /\.(glsl|vs|fs|vert|frag)$/,
+      type: 'asset/source',
+    });
+    return config;
+  },
 };
 
 module.exports = nextConfig;
