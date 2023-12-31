@@ -21,8 +21,8 @@ import fragmentMain from './shader/fragment_main.glsl';
 
 const LEVA_STYLES: CSSProperties = {
   position: 'fixed',
-  right: '10px',
   bottom: '10px',
+  right: '10px',
   zIndex: 256,
 };
 
@@ -55,12 +55,19 @@ const BeadTexture = ({
     <meshStandardMaterial
       ref={shadowRef}
       onBeforeCompile={shader => {
+        // 셰이더 메쉬에 조명을 주는 3가지 방법
+        // 1. 커스텀 셰이더인 경우, fragment 셰이더에서 수동으로 빛을 계산한다.
+        // 2. 지원되는 셰이더인 경우, onBeforeCompile 함수를 통해 기존 셰이더 코드를 확장한다.
+        // 3. 이와 관련한 라이브러리를 사용한다.
+
+        // 이 구현은 2번째 방법
+
         // shader 참조
         shadowRef.current.userData.shader = shader;
 
         // uniforms
-        shader.uniforms.uTime = { value: 0 };
-        shader.uniforms.uWrinkle = { value: 6 };
+        shader.uniforms.uTime = { value: 0.0 };
+        shader.uniforms.uWrinkle = { value: 6.0 };
 
         // custom vertex
         const parsVertexString = '#include <displacementmap_pars_vertex>';
@@ -103,8 +110,8 @@ function Bead() {
     speed: {
       min: 0,
       max: 0.5,
-      value: 0.5,
-      step: 0.05,
+      value: 0.25,
+      step: 0.01,
     },
     color: '#0000ff',
   });
@@ -162,11 +169,38 @@ function Bead() {
         <Leva hideCopyButton fill={GPUTier.isMobile} />
       </div>
 
-      <Stats
-        className={`stats ${GPUTier.isMobile ? 'left' : 'right'} bottom`}
-      />
+      <Stats className={`stats right ${GPUTier.isMobile ? 'top' : 'bottom'}`} />
     </>
   );
 }
 
 export default Bead;
+
+// const BeadShadowMaterial = TestMat(
+//   {
+//     uTime: 0.1,
+//     uWrinkle: 6,
+//     // uTexture: new THREE.Texture(),
+//     uColor: new THREE.Color(0, 0, 255),
+//     ...THREE.UniformsLib['lights'],
+//   },
+//   vertex,
+//   fragment
+// );
+
+// extend({ BeadShadowMaterial });
+
+// type BeadShadowMaterialImpl = {
+//   uTime: number;
+//   uWrinkle: number;
+//   // uTexture: THREE.Texture;
+//   uColor: THREE.Color | string;
+// } & JSX.IntrinsicElements['shaderMaterial'];
+
+// declare global {
+//   namespace JSX {
+//     interface IntrinsicElements {
+//       beadShadowMaterial: BeadShadowMaterialImpl;
+//     }
+//   }
+// }
