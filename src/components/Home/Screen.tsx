@@ -1,14 +1,27 @@
 'use client';
 
 import * as THREE from 'three';
-import { PropsWithChildren, startTransition, useRef, useState } from 'react';
-
-import { ThreeElements, Vector3, useFrame } from '@react-three/fiber';
-import { useRouter } from 'next/navigation';
 import {
+  useRef,
+  useState,
+  useCallback,
+  startTransition,
+  PropsWithChildren,
+} from 'react';
+import { useRouter } from 'next/navigation';
+
+import {
+  Vector3,
+  useFrame,
+  ThreeEvent,
+  ThreeElements,
+} from '@react-three/fiber';
+import {
+  Box,
   Text,
-  Stars,
   Image,
+  Stars,
+  Sphere,
   useCursor,
   RenderTexture,
   PerspectiveCamera,
@@ -39,7 +52,7 @@ function Screen({
   ...props
 }: PropsWithChildren<ScreenProps>) {
   return (
-    <group {...props}>
+    <group {...props} dispose={null}>
       <mesh geometry={instances[frame].geometry} material={materials.Texture} />
 
       <mesh geometry={instances[panel].geometry}>
@@ -157,17 +170,47 @@ export function ScreenImage({
 }
 
 // Box inner Screen
-export function ScreenBox({
+export function ScreenMesh({
+  meshType,
+  cameraPos,
+  backgroundColor,
   routerPath,
   ...props
-}: { routerPath: string } & ScreenProps) {
+}: {
+  meshType: 'Box' | 'Sphere';
+  cameraPos: Vector3;
+  backgroundColor: string;
+  routerPath: string;
+} & ScreenProps) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const router = useRouter();
   const [hovered, setHovered] = useState(false);
 
+  const handleClick = useCallback(
+    (e: ThreeEvent<MouseEvent>) => {
+      e.stopPropagation();
+
+      if (routerPath) router.push(routerPath);
+    },
+    [router, routerPath]
+  );
+
+  const handlePointerOver = useCallback(
+    (e: ThreeEvent<PointerEvent>) => {
+      e.stopPropagation();
+
+      startTransition(() => {
+        setHovered(true);
+      });
+    },
+    [setHovered]
+  );
+
+  const handlePointerOut = useCallback(() => setHovered(false), [setHovered]);
+
   // useFrame 내부에 setState 사용 금지 (규칙)
-  useFrame((_state, delta, _frame) => {
-    if (!meshRef.current) return;
+  useFrame((_, delta) => {
+    if (meshType === 'Sphere' || !meshRef.current) return;
 
     // 프레임 렌더링 직전 호출됨
     // (+ 컴포넌트 언마운트 시, 자동 구독 취소됨)
@@ -180,33 +223,43 @@ export function ScreenBox({
 
   return (
     <Screen {...props}>
-      <PerspectiveCamera makeDefault manual aspect={1} position={[0, 0, 5]} />
-      <color attach='background' args={['Orchid']} />
+      <PerspectiveCamera makeDefault manual aspect={1} position={cameraPos} />
+      <color attach='background' args={[backgroundColor]} />
       <ambientLight intensity={0.2} />
       <pointLight position={[10, 10, 10]} intensity={0.75} />
       <pointLight position={[-10, -10, -10]} />
 
-      <mesh
-        ref={meshRef}
-        position={[-0.025, 0.34, 0]}
-        scale={0.35}
-        onClick={e => {
-          e.stopPropagation();
-
-          if (routerPath) router.push(routerPath);
-        }}
-        onPointerOver={e => {
-          e.stopPropagation();
-
-          startTransition(() => {
-            setHovered(true);
-          });
-        }}
-        onPointerOut={() => setHovered(false)}
-      >
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color={hovered ? 'Gold' : '#9127b9'} />
-      </mesh>
+      {/* mesh type */}
+      {
+        {
+          Box: (
+            <Box
+              ref={meshRef}
+              args={[1, 1, 1]}
+              position={[-0.025, 0.34, 0]}
+              scale={0.45}
+              onClick={handleClick}
+              onPointerOver={handlePointerOver}
+              onPointerOut={handlePointerOut}
+            >
+              <meshStandardMaterial color={hovered ? '#99FF99' : '#BBBBBB'} />
+            </Box>
+          ),
+          Sphere: (
+            <Sphere
+              ref={meshRef}
+              args={[1, 4, 4]}
+              position={[-0.025, 0.34, 0]}
+              scale={0.35}
+              onClick={handleClick}
+              onPointerOver={handlePointerOver}
+              onPointerOut={handlePointerOut}
+            >
+              <meshStandardMaterial color={hovered ? '#0000FF' : '#DDDDDD'} />
+            </Sphere>
+          ),
+        }[meshType]
+      }
     </Screen>
   );
 }
@@ -214,9 +267,12 @@ export function ScreenBox({
 // CustomModel inner Screen
 export function ScreenCustomModel({
   routerPath,
+  cameraPos = [0, 0, 5],
   children,
   ...props
-}: PropsWithChildren<ScreenProps & { routerPath: string }>) {
+}: PropsWithChildren<
+  ScreenProps & { routerPath: string; cameraPos?: Vector3 }
+>) {
   const router = useRouter();
   const [hovered, setHovered] = useState(false);
 
@@ -239,28 +295,24 @@ export function ScreenCustomModel({
       }}
       onPointerOut={() => setHovered(false)}
     >
-      <PerspectiveCamera
-        makeDefault
-        manual
-        aspect={1}
-        position={[0.5, -27.5, 80]}
-      />
-      <color attach='background' args={['#846f9f']} />
+      <PerspectiveCamera makeDefault manual aspect={1} position={cameraPos} />
       <ambientLight intensity={0.2} />
       <pointLight position={[10, 10, 10]} intensity={0.75} />
       <pointLight position={[-10, -10, -10]} />
 
       {children}
 
-      <Stars
-        count={hovered ? 40 : 20}
-        factor={hovered ? 5 : 2.5}
-        speed={hovered ? 3.5 : 1.5}
-        saturation={0.2}
-        radius={1}
-        depth={5}
-        fade
-      />
+      {routerPath === '/Naver/SearchTrend' && (
+        <Stars
+          count={hovered ? 40 : 20}
+          factor={hovered ? 5 : 2.5}
+          speed={hovered ? 3.5 : 1.5}
+          saturation={0.2}
+          radius={1}
+          depth={5}
+          fade
+        />
+      )}
     </Screen>
   );
 }

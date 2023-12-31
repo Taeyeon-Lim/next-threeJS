@@ -4,7 +4,7 @@ import { useGLTF } from '@react-three/drei';
 import { ThreeElements, useGraph } from '@react-three/fiber';
 
 import {
-  ScreenBox,
+  ScreenMesh,
   ScreenCustomModel,
   ScreenImage,
   ScreenText,
@@ -920,16 +920,54 @@ export default function Televisions(props: ThreeElements['group']) {
       />
 
       {/* theme :: box */}
-      <ScreenBox
+      <ScreenMesh
         instances={instances}
         materials={materials}
         frame='Object_215'
         panel='Object_216'
         position={[1.845, 0.377, -1.771]}
         rotation={[0, -Math.PI / 9, 0]}
+        cameraPos={[0, 0, 5]}
+        backgroundColor='#005500'
         routerPath={'/Box'}
+        meshType='Box'
       />
 
+      {/* theme :: bead */}
+      <ScreenMesh
+        instances={instances}
+        materials={materials}
+        frame='Object_218'
+        panel='Object_219'
+        position={[3.11, 2.145, -0.18]}
+        rotation={[0, -0.793, 0]}
+        scale={0.81}
+        cameraPos={[1.825, -0.1, 6]}
+        backgroundColor='#9999FF'
+        routerPath={'/Bead'}
+        meshType='Sphere'
+      />
+
+      {/* theme :: SearchTrend */}
+      <ScreenCustomModel
+        instances={instances}
+        materials={materials}
+        frame='Object_209'
+        panel='Object_210'
+        position={[-1.43, 2.496, -1.8]}
+        rotation={[0, 1.002, 0]}
+        cameraPos={[0.5, -27.5, 80]}
+        routerPath={'/Naver/SearchTrend'}
+      >
+        <color attach='background' args={['#846f9f']} />
+
+        <DysonRingsThumbnail
+          scale={0.45}
+          rotation={[0, -Math.PI / 2, Math.PI / 6]}
+        />
+      </ScreenCustomModel>
+
+      {/* Dummy Text */}
       <ScreenText
         instances={instances}
         materials={materials}
@@ -941,23 +979,6 @@ export default function Televisions(props: ThreeElements['group']) {
         scale={0.9}
         text={'Prod by TaeYeon'}
       />
-
-      {/* theme :: SearchTrend */}
-      <ScreenCustomModel
-        instances={instances}
-        materials={materials}
-        frame='Object_209'
-        panel='Object_210'
-        position={[-1.43, 2.496, -1.8]}
-        rotation={[0, 1.002, 0]}
-        routerPath={'/Naver/SearchTrend'}
-      >
-        <DysonRingsThumbnail
-          scale={0.45}
-          rotation={[0, -Math.PI / 2, Math.PI / 6]}
-        />
-      </ScreenCustomModel>
-
       <ScreenText
         instances={instances}
         materials={materials}
@@ -967,19 +988,7 @@ export default function Televisions(props: ThreeElements['group']) {
         rotation={[0, 1.087, 0]}
         x={-5}
         y={5}
-        text={'Not Yet Produced...'}
-        invert
-      />
-      <ScreenText
-        instances={instances}
-        materials={materials}
-        frame='Object_218'
-        panel='Object_219'
-        position={[3.11, 2.145, -0.18]}
-        rotation={[0, -0.793, 0]}
-        scale={0.81}
-        x={-5}
-        text={'Welcome...!!'}
+        text={'React 3 Fiber'}
         invert
       />
       <ScreenText
@@ -989,6 +998,7 @@ export default function Televisions(props: ThreeElements['group']) {
         panel='Object_225'
         position={[-3.899, 4.287, -2.642]}
         rotation={[0, 0.539, 0]}
+        text={'방문을 환영합니다'}
         invert
       />
       <ScreenText
@@ -998,7 +1008,7 @@ export default function Televisions(props: ThreeElements['group']) {
         panel='Object_231'
         position={[4.683, 4.29, -1.558]}
         rotation={[0, -Math.PI / 3, 0]}
-        text={'Three Fiber Drei'}
+        text={'Welcome...!!'}
       />
     </group>
   );
