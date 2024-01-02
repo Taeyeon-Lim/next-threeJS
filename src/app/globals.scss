@@ -212,3 +212,37 @@ input[type='date'] {
     right: 0;
   }
 }
+
+// Leva - fill
+.leva-fill-option {
+  position: fixed;
+  z-index: 999;
+
+  $margin: 10px;
+
+  &.fill {
+    width: 100%;
+
+    &.left,
+    &.right {
+      width: calc(100% - $margin * 2);
+    }
+  }
+
+  &.top {
+    top: $margin;
+    bottom: initial !important;
+  }
+  &.bottom {
+    bottom: $margin;
+    top: initial !important;
+  }
+  &.left {
+    left: $margin;
+    right: initial !important;
+  }
+  &.right {
+    left: initial !important;
+    right: $margin;
+  }
+}
