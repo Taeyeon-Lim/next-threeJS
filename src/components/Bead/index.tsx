@@ -1,7 +1,7 @@
 'use client';
 
 import * as THREE from 'three';
-import { useRef, useEffect, CSSProperties } from 'react';
+import { useRef, useEffect } from 'react';
 
 import { Canvas, useFrame } from '@react-three/fiber';
 import {
@@ -18,13 +18,6 @@ import vertexPars from './shader/vertex_pars.glsl';
 import vertexMain from './shader/vertex_main.glsl';
 import fragmentPars from './shader/fragment_pars.glsl';
 import fragmentMain from './shader/fragment_main.glsl';
-
-const LEVA_STYLES: CSSProperties = {
-  position: 'fixed',
-  bottom: '10px',
-  right: '10px',
-  zIndex: 256,
-};
 
 const BeadTexture = ({
   uWrinkle,
@@ -165,7 +158,7 @@ function Bead() {
         <OrbitControls makeDefault enablePan={false} enableZoom={false} />
       </Canvas>
 
-      <div style={LEVA_STYLES}>
+      <div className='leva-fill-option fill right bottom'>
         <Leva hideCopyButton fill={GPUTier.isMobile} />
       </div>
 
