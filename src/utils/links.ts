@@ -1,7 +1,11 @@
+/**
+ * @param createdByUpdate [0]='최초 완성일', [1~]=중요 업데이트 일시
+ * @param subPaths  중첩 경로 (권장: 1번 이상 중첩X)
+ */
 type NaviPaths = {
   path: string;
   name: string;
-  createdBy: string;
+  createdByUpdate: string[];
   subPaths?: NaviPaths;
 }[];
 
@@ -9,49 +13,54 @@ const NAVIGATOR_LINKS: NaviPaths = [
   {
     path: '/',
     name: 'Home',
-    createdBy: '2023-07-30',
+    createdByUpdate: ['2023-07-30'],
   },
   {
     path: '/Box',
     name: 'Box',
-    createdBy: '2023-07-07',
+    createdByUpdate: ['2023-07-07'],
   },
   // {
   //   path: '/Galaxy',
   //   name: 'Galaxy',
-  //   createdBy: '2023-07-09',
+  //   createdByUpdate: '2023-07-09',
   // },
   // {
   //   path: '/Camera',
   //   name: 'Camera',
-  //   createdBy: '2023-07-14',
+  //   createdByUpdate: '2023-07-14',
   // },
   {
     path: '/Potal',
     name: 'Potal',
-    createdBy: '2023-07-29',
+    createdByUpdate: ['2023-07-29'],
   },
   {
     path: '/Totoro',
     name: 'Totoro',
-    createdBy: '2023-08-03',
+    createdByUpdate: ['2023-08-03'],
   },
   {
     path: '/Naver',
     name: 'Letter',
-    createdBy: '20XX-XX-XX',
+    createdByUpdate: ['XXXX-XX-XX'],
     subPaths: [
       {
         path: '/SearchTrend',
         name: 'SearchTrend',
-        createdBy: '2023-10-27',
+        createdByUpdate: ['2023-10-27'],
       },
     ],
   },
+  // {
+  //   path: '/Ripple',
+  //   name: 'Ripple',
+  //   createdByUpdate: ['XXXX-XX-XX'],
+  // },
   {
     path: '/Bead',
     name: 'Bead',
-    createdBy: '2023-12-31',
+    createdByUpdate: ['2023-12-31', '2023-01-02'],
   },
 ];
 
