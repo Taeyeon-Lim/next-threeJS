@@ -39,65 +39,59 @@ const Navigator = () => {
     return (
       <nav className={cx('navi-wrapper')} onClick={onCloseModal}>
         <ol className={cx('navi')}>
+          <li className={cx('portfolio')}>
+            <Link
+              href={'https://tyeon-portfolio.vercel.app'}
+              target='_blank'
+              // noopener (기존 window 위변조 방지)
+              // noreferrer (HTTP referer header 생략, 참조자 정보 전달 방지)
+              rel='noopener'
+            >
+              👏 Who I am?
+            </Link>
+
+            <CgPushChevronLeft />
+          </li>
+
           {NAVIGATOR_LINKS?.map(({ path, name, subPaths }) => {
-            if (path === '/') {
-              return (
-                <li
-                  key={'nav_/home'}
-                  className={cx('home')}
-                  onClick={handleIsOpenNavi}
-                >
-                  <Link
-                    href={'/'}
-                    className={cx({ current: pathname === '/' })}
-                    onClick={e => pathname === '/' && e.stopPropagation()}
-                  >
-                    All
-                  </Link>
+            const subPath_prefix = path.slice(1, 2) + '.';
 
-                  <CgPushChevronLeft />
-                </li>
-              );
-            } else {
-              const subPath_prefix = path.slice(1, 2) + '.';
-
-              return (
-                <Fragment key={'nav_' + path}>
-                  {/* "/Naver" 경로 완성 후, 제거 */}
-                  {path !== '/Naver' && (
-                    <li onClick={handleIsOpenNavi}>
-                      <Link
-                        href={path}
-                        className={cx({ current: pathname === path })}
-                        onClick={e => pathname === path && e.stopPropagation()}
-                      >
-                        {name}
-                      </Link>
-                    </li>
-                  )}
-
-                  {subPaths?.map(({ path: subPath, name: subName }) => (
-                    <li
-                      key={'subNav_' + path + subPath}
-                      onClick={handleIsOpenNavi}
+            return (
+              <Fragment key={'nav_' + path}>
+                {/* "/Naver" 경로 완성 후, 제거 */}
+                {path !== '/Naver' && (
+                  <li onClick={handleIsOpenNavi}>
+                    <Link
+                      href={path}
+                      className={cx({ current: pathname === path })}
+                      onClick={e => pathname === path && e.stopPropagation()}
                     >
-                      <Link
-                        href={path + subPath}
-                        className={cx('sub', {
-                          current: pathname === path + subPath,
-                        })}
-                        onClick={e =>
-                          pathname === path + subPath && e.stopPropagation()
-                        }
-                      >
-                        <span>{subPath_prefix}</span>
-                        <span>{subName}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </Fragment>
-              );
-            }
+                      {name}
+                    </Link>
+                  </li>
+                )}
+
+                {subPaths?.map(({ path: subPath, name: subName }) => (
+                  <li
+                    key={'subNav_' + path + subPath}
+                    onClick={handleIsOpenNavi}
+                  >
+                    <Link
+                      href={path + subPath}
+                      className={cx('sub', {
+                        current: pathname === path + subPath,
+                      })}
+                      onClick={e =>
+                        pathname === path + subPath && e.stopPropagation()
+                      }
+                    >
+                      <span>{subPath_prefix}</span>
+                      <span>{subName}</span>
+                    </Link>
+                  </li>
+                ))}
+              </Fragment>
+            );
           })}
         </ol>
       </nav>

@@ -2,12 +2,13 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.25);
+  font-size: 1.6rem;
+  cursor: pointer;
+
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 128;
-  cursor: pointer;
-  font-size: 1.6rem;
+  z-index: 999999;
 
   & > .navi {
     width: 100%;
@@ -18,6 +19,8 @@
     cursor: default;
 
     position: relative;
+    overflow-y: auto;
+
     animation: slide 0.2s linear 0s;
 
     @keyframes slide {
@@ -29,8 +32,21 @@
       }
     }
 
+    &::-webkit-scrollbar {
+      background: #888;
+      width: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+      height: 40px;
+      border-radius: 8px;
+      border: 4px solid #fff;
+      background-clip: content-box;
+      background-color: #fff;
+    }
+
     & > li {
       width: 100%;
+
       display: flex;
       align-items: center;
 
@@ -68,7 +84,7 @@
         }
       }
 
-      &.home {
+      &.portfolio {
         $closeWidth: 6rem;
 
         & > a {
@@ -99,7 +115,7 @@
   position: fixed;
   top: 1rem;
   left: 1rem;
-  z-index: 128;
+  z-index: 999999;
 
   & > svg {
     width: 4rem;
