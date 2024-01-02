@@ -6,7 +6,7 @@ import Skeleton from '@components/Skeleton';
 const Television = dynamic(() => import('@components/Home'), {
   ssr: false,
   loading: () => (
-    <Skeleton message='세계를 그리는 중..' backgroundColor='black' />
+    <Skeleton message='세계를 그리는 중..' backgroundColor='#000000' />
   ),
 });
 
@@ -20,18 +20,18 @@ export default function Home() {
       <Television />
     </section>
   );
-
-  // <Image
-  //   style={{
-  //     objectFit: 'contain',
-  //     display: 'block',
-  //   }}
-  //   src={'/cat.jpeg'} // static image
-  //   alt={'cat'}
-  //   fill
-  //   sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-  //   quality={90}
-  //   placeholder='blur'
-  //   blurDataURL={PLACEHOLDER_BASE64_IMAGE}
-  // />;
 }
+
+// <Image
+//   style={{
+//     objectFit: 'contain',
+//     display: 'block',
+//   }}
+//   src={'/cat.jpeg'} // static image
+//   alt={'cat'}
+//   fill
+//   sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+//   quality={90}
+//   placeholder='blur'
+//   blurDataURL={PLACEHOLDER_BASE64_IMAGE}
+// />;
