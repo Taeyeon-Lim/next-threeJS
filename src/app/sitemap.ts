@@ -14,15 +14,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const firstPath = {
       url: DOMAIN_URL + link.path,
       lastModified: LAST_MODIFIED,
+      priority: link.path === '/' ? 1 : 0.9,
     };
 
     if (link.subPaths) {
       const subPaths = link.subPaths.map(subLink => ({
         url: DOMAIN_URL + link.path + subLink.path,
         lastModified: LAST_MODIFIED,
+        priority: link.path === '/' ? 1 : 0.9,
       }));
 
-      return subPaths.concat(firstPath);
+      return [firstPath].concat(subPaths);
     } else {
       return firstPath;
     }
