@@ -50,7 +50,7 @@ const Navigator = () => {
               👏 Who I am?
             </Link>
 
-            <CgPushChevronLeft />
+            <CgPushChevronLeft onClick={handleIsOpenNavi} />
           </li>
 
           {NAVIGATOR_LINKS?.map(({ path, name, subPaths }) => {
