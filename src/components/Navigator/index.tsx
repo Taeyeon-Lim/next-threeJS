@@ -60,8 +60,6 @@ const Navigator = () => {
           </li>
 
           {NAVIGATOR_LINKS?.map(({ path, name, subPaths, createdByUpdate }) => {
-            const subPath_prefix = path.slice(1, 2) + '.';
-
             // 1. [0]번 index 날짜가 30일이 지나지 않으면 `NEW`
             const isNewPath = isNotOver30Days(today, createdByUpdate[0]);
 
@@ -77,16 +75,21 @@ const Navigator = () => {
                   <li onClick={handleIsOpenNavi}>
                     <Link
                       href={path}
-                      className={cx(
-                        { current: pathname === path },
-                        {
-                          update: isNewPath || isUpdatePath,
-                          new: isNewPath,
+                      className={cx({ current: pathname === path })}
+                      onClick={e => {
+                        if (pathname === path) {
+                          e.preventDefault();
+                          e.stopPropagation();
                         }
-                      )}
-                      onClick={e => pathname === path && e.stopPropagation()}
+                      }}
                     >
                       {name}
+                      <span
+                        className={cx({
+                          update: isNewPath || isUpdatePath,
+                          new: isNewPath,
+                        })}
+                      />
                     </Link>
                   </li>
                 )}
@@ -109,22 +112,23 @@ const Navigator = () => {
                       >
                         <Link
                           href={path + subPath}
-                          className={cx(
-                            'sub',
-                            {
-                              current: pathname === path + subPath,
-                            },
-                            {
+                          className={cx('sub', {
+                            current: pathname === path + subPath,
+                          })}
+                          onClick={e => {
+                            if (pathname === path + subPath) {
+                              e.preventDefault();
+                              e.stopPropagation();
+                            }
+                          }}
+                        >
+                          <span>{`${path.slice(1)} - ${subName}`}</span>
+                          <span
+                            className={cx({
                               update: isNewSubPath || isUpdateSubPath,
                               new: isNewSubPath,
-                            }
-                          )}
-                          onClick={e =>
-                            pathname === path + subPath && e.stopPropagation()
-                          }
-                        >
-                          <span>{subPath_prefix}</span>
-                          <span>{subName}</span>
+                            })}
+                          />
                         </Link>
                       </li>
                     );

@@ -59,26 +59,20 @@
       & > a {
         width: 100%;
         min-height: 4rem;
-        height: 100%;
 
         color: white;
         font-weight: 300;
 
         padding: 1rem $linkPadding;
-        box-sizing: border-box;
 
         display: inline-flex;
         align-items: center;
+        gap: 0.5rem;
 
         @media (hover: hover) and (pointer: fine) {
           &:not(.current):hover {
             color: $hoverColor;
           }
-        }
-
-        &.sub {
-          display: inline-flex;
-          gap: 0.5rem;
         }
 
         &.current {
@@ -87,24 +81,25 @@
           cursor: default;
         }
 
-        &.update {
+        & > .update {
           &.new::after {
             content: 'NEW';
-            width: 35px;
+            width: 36px;
           }
 
-          &::after {
+          &:after {
             $fontColor: #dfbe9b;
+
             content: 'UP';
             width: 25px;
-            height: 20px;
+            height: 18px;
 
             background: #615151;
 
             color: $fontColor;
             font-weight: 700;
             font-size: 1.2rem;
-            line-height: 1.2;
+            line-height: 1.5;
 
             display: inline-flex;
             justify-content: center;
@@ -115,8 +110,7 @@
             border: 1px solid $fontColor;
 
             position: relative;
-            left: 0.5rem;
-            z-index: 1;
+            left: 5px;
           }
         }
       }
