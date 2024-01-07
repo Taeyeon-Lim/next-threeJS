@@ -12,7 +12,13 @@ const cx = classnames.bind(styles);
 
 import NAVIGATOR_LINKS from '@utils/links';
 
+const DAY = 1000 * 60 * 60 * 24;
+const isNotOver30Days = (today: Date, diff: string) => {
+  return (today.getTime() - new Date(diff).getTime()) / DAY < 31;
+};
+
 const Navigator = () => {
+  const [today] = useState(() => new Date());
   const [isOpenNavi, setIsOpenNavi] = useState(false);
 
   const handleIsOpenNavi = useCallback(() => setIsOpenNavi(prev => !prev), []);
@@ -47,14 +53,22 @@ const Navigator = () => {
               // noreferrer (HTTP referer header 생략, 참조자 정보 전달 방지)
               rel='noopener'
             >
-              👏 Who I am?
+              👏 Who am i?
             </Link>
 
             <CgPushChevronLeft onClick={handleIsOpenNavi} />
           </li>
 
-          {NAVIGATOR_LINKS?.map(({ path, name, subPaths }) => {
+          {NAVIGATOR_LINKS?.map(({ path, name, subPaths, createdByUpdate }) => {
             const subPath_prefix = path.slice(1, 2) + '.';
+
+            // 1. [0]번 index 날짜가 30일이 지나지 않으면 `NEW`
+            const isNewPath = isNotOver30Days(today, createdByUpdate[0]);
+
+            // 2. 1의 경우가 아니면서, [-1]번 index 날짜가 30일 지나지 않으면 `UP`
+            const isUpdatePath =
+              createdByUpdate.length > 1 &&
+              isNotOver30Days(today, createdByUpdate.slice(-1)[0]);
 
             return (
               <Fragment key={'nav_' + path}>
@@ -63,7 +77,13 @@ const Navigator = () => {
                   <li onClick={handleIsOpenNavi}>
                     <Link
                       href={path}
-                      className={cx({ current: pathname === path })}
+                      className={cx(
+                        { current: pathname === path },
+                        {
+                          update: isNewPath || isUpdatePath,
+                          new: isNewPath,
+                        }
+                      )}
                       onClick={e => pathname === path && e.stopPropagation()}
                     >
                       {name}
@@ -71,25 +91,45 @@ const Navigator = () => {
                   </li>
                 )}
 
-                {subPaths?.map(({ path: subPath, name: subName }) => (
-                  <li
-                    key={'subNav_' + path + subPath}
-                    onClick={handleIsOpenNavi}
-                  >
-                    <Link
-                      href={path + subPath}
-                      className={cx('sub', {
-                        current: pathname === path + subPath,
-                      })}
-                      onClick={e =>
-                        pathname === path + subPath && e.stopPropagation()
-                      }
-                    >
-                      <span>{subPath_prefix}</span>
-                      <span>{subName}</span>
-                    </Link>
-                  </li>
-                ))}
+                {subPaths?.map(
+                  ({
+                    path: subPath,
+                    name: subName,
+                    createdByUpdate: subUpdate,
+                  }) => {
+                    const isNewSubPath = isNotOver30Days(today, subUpdate[0]);
+                    const isUpdateSubPath =
+                      subUpdate.length > 1 &&
+                      isNotOver30Days(today, subUpdate.slice(-1)[0]);
+
+                    return (
+                      <li
+                        key={'subNav_' + path + subPath}
+                        onClick={handleIsOpenNavi}
+                      >
+                        <Link
+                          href={path + subPath}
+                          className={cx(
+                            'sub',
+                            {
+                              current: pathname === path + subPath,
+                            },
+                            {
+                              update: isNewSubPath || isUpdateSubPath,
+                              new: isNewSubPath,
+                            }
+                          )}
+                          onClick={e =>
+                            pathname === path + subPath && e.stopPropagation()
+                          }
+                        >
+                          <span>{subPath_prefix}</span>
+                          <span>{subName}</span>
+                        </Link>
+                      </li>
+                    );
+                  }
+                )}
               </Fragment>
             );
           })}

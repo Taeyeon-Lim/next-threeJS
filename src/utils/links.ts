@@ -1,7 +1,3 @@
-/**
- * @param createdByUpdate [0]='최초 완성일', [1~]=중요 업데이트 일시
- * @param subPaths  중첩 경로 (권장: 1번 이상 중첩X)
- */
 type NaviPaths = {
   path: string;
   name: string;
@@ -9,6 +5,10 @@ type NaviPaths = {
   subPaths?: NaviPaths;
 }[];
 
+/**
+ * @param createdByUpdate [0]='최초 완성일', [1~]=중요 업데이트 일시
+ * @param subPaths  중첩 경로 (권장: 1번 이상 중첩X)
+ */
 const NAVIGATOR_LINKS: NaviPaths = [
   {
     path: '/',
@@ -18,7 +18,7 @@ const NAVIGATOR_LINKS: NaviPaths = [
   {
     path: '/Box',
     name: 'Box',
-    createdByUpdate: ['2023-07-07'],
+    createdByUpdate: ['2023-07-07', '2024-01-02'],
   },
   // {
   //   path: '/Galaxy',
@@ -48,7 +48,7 @@ const NAVIGATOR_LINKS: NaviPaths = [
       {
         path: '/SearchTrend',
         name: 'SearchTrend',
-        createdByUpdate: ['2023-10-27'],
+        createdByUpdate: ['2023-10-27', '2023-12-17'],
       },
     ],
   },
@@ -60,7 +60,7 @@ const NAVIGATOR_LINKS: NaviPaths = [
   {
     path: '/Bead',
     name: 'Bead',
-    createdByUpdate: ['2023-12-31', '2023-01-02'],
+    createdByUpdate: ['2023-12-31', '2024-01-02'],
   },
 ];
 

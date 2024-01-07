@@ -60,11 +60,15 @@
         width: 100%;
         min-height: 4rem;
         height: 100%;
+
         color: white;
+        font-weight: 300;
+
         padding: 1rem $linkPadding;
+        box-sizing: border-box;
+
         display: inline-flex;
         align-items: center;
-        font-weight: 300;
 
         @media (hover: hover) and (pointer: fine) {
           &:not(.current):hover {
@@ -81,6 +85,39 @@
           font-weight: 500;
           text-decoration: underline;
           cursor: default;
+        }
+
+        &.update {
+          &.new::after {
+            content: 'NEW';
+            width: 35px;
+          }
+
+          &::after {
+            $fontColor: #dfbe9b;
+            content: 'UP';
+            width: 25px;
+            height: 20px;
+
+            background: #615151;
+
+            color: $fontColor;
+            font-weight: 700;
+            font-size: 1.2rem;
+            line-height: 1.2;
+
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+
+            box-sizing: border-box;
+            border-radius: 4px;
+            border: 1px solid $fontColor;
+
+            position: relative;
+            left: 0.5rem;
+            z-index: 1;
+          }
         }
       }
 
