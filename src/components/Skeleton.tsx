@@ -19,7 +19,7 @@ function Skeleton({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        fontSize: '2rem',
+        fontSize: '2.5rem',
         color: color || (backgroundColor ? 'white' : 'black'),
       }}
     >

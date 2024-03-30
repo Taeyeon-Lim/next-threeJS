@@ -5,8 +5,8 @@ const Bead = dynamic(() => import('@components/Bead'), {
   ssr: false,
   loading: () => (
     <Skeleton
-      message='세계를 그리는 중..'
-      backgroundColor='#000000'
+      message='세계를 그리는 중...'
+      backgroundColor='#002147'
       color='#FFFFFF'
     />
   ),
