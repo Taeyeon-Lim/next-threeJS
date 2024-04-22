@@ -3069,7 +3069,7 @@ three-stdlib@^2.23.4, three-stdlib@^2.28.0, three-stdlib@^2.28.3:
 
 three@^0.154.0:
   version "0.154.0"
-  resolved "https://registry.npmjs.org/three/-/three-0.154.0.tgz"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.154.0.tgz#dbef21e10fe6015ec283acc60d0eb58733991e27"
   integrity sha512-Uzz8C/5GesJzv8i+Y2prEMYUwodwZySPcNhuJUdsVMH2Yn4Nm8qlbQe6qRN5fOhg55XB0WiLfTPBxVHxpE60ug==
 
 titleize@^3.0.0:
