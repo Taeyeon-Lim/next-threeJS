@@ -62,6 +62,11 @@ const NAVIGATOR_LINKS: NaviPaths = [
     name: 'Bead',
     createdByUpdate: ['2023-12-31', '2024-01-02'],
   },
+  {
+    path: '/Minecraft',
+    name: 'Minecraft (...ing)',
+    createdByUpdate: ['2024-04-22'],
+  },
 ];
 
 export default NAVIGATOR_LINKS;
