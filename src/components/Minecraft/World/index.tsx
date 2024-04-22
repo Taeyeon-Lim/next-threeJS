@@ -36,14 +36,6 @@ const size: Size = [1, 1, 1];
 
 /**
  * custom shader material
- * ㅡ Texture
- */
-// const myTxt = Object.values(blockTypes)
-//   .filter(v => v.name !== 'empty')
-//   .map(v => v.material)[0][0];
-
-/**
- * custom shader material
  * ㅡ Edge
  */
 const initial_edges_uniform = {

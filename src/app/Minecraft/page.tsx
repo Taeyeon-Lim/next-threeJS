@@ -6,7 +6,7 @@ const Minecraft = dynamic(() => import('@components/Minecraft'), {
   loading: () => (
     <Skeleton
       message='세계를 그리는 중..'
-      backgroundColor='green'
+      backgroundColor='#FFFFFF'
       color='#000000'
     />
   ),

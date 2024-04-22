@@ -4,8 +4,8 @@ export default function Loading() {
   return (
     <Skeleton
       message='Minecraft Loading..'
-      backgroundColor='green'
-      color='#FFFFFF'
+      backgroundColor='#FFFFFF'
+      color='#000000'
     />
   );
 }
