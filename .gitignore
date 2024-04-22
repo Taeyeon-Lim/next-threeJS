@@ -56,5 +56,14 @@ src/app/Camera
 src/components/Camera.tsx
 /public/camera
 
+src/app/Ripple
+src/components/Ripple/*
+/public/brush.png
+/public/shoe.glb
+
+/public/Minecraft
+src/components/Minecraft/World/frag_texture.glsl
+src/components/Minecraft/World/vertex_texture.glsl
+
 # ?
 src/utils/errorHandling.ts
