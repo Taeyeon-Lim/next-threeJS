@@ -213,7 +213,10 @@ input[type='date'] {
   }
 }
 
-// Leva - fill
+// Leva
+body {
+  --leva-sizes-numberInputMinWidth: 52px;
+}
 .leva-fill-option {
   position: fixed;
   z-index: 999;
