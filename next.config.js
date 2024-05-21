@@ -4,8 +4,6 @@ const path = require('path');
 const nextConfig = {
   env: {
     domainURL: 'https://three-ty.vercel.app',
-    naverClientID: '9irpe0J7J5c3E3Rix3m8',
-    naverSecret: 'Z85h1LkXdk',
   },
   images: {
     formats: ['image/avif', 'image/webp'],
